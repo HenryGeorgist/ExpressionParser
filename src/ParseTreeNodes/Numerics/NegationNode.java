@@ -1,0 +1,56 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ParseTreeNodes.Numerics;
+
+/**
+ *
+ * @author Will_and_Sara
+ */
+public class NegationNode extends ParseTreeNodes.ParseTreeNode {
+    private ParseTreeNodes.ParseTreeNode _d;
+    public NegationNode(ParseTreeNodes.ParseTreeNode d){
+        _d = d;
+        if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(_d.Type())){
+          _Type = _d.Type();  
+        }else{
+            _Type = ParseTreeNodes.TypeEnum.ERR;
+        }
+        
+    }
+    @Override
+    public ParseTreeNodes.Tokens Token() {
+        return ParseTreeNodes.Tokens.NUMLIT;
+    }
+    @Override
+    public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
+        if(_Type == ParseTreeNodes.TypeEnum.ERR){
+            return new ParseTreeNodes.ParseTreeNodeResult(_d.ToString(), _Type);
+        }else{
+            if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(_Type)){
+                return new ParseTreeNodes.ParseTreeNodeResult(-Integer.parseInt(_d.Evaluate().Result().toString()), _Type);
+            }else{
+                return new ParseTreeNodes.ParseTreeNodeResult(-Double.parseDouble(_d.Evaluate().Result().toString()), _Type);
+            }   
+        }
+        
+    }
+    @Override
+    public void Update(Object[] row) {
+        //do nothing, this is not a variable
+    }
+    @Override
+    public String ToString() {
+        return "-" + _d.ToString();
+    }
+    @Override
+    public void SetColumnNumbers(String[] ColumnNames) {
+        //do nothing, this is a terminal branch in the tree.
+    }
+    @Override
+    public boolean ContainsVariable() {
+        return false;
+    }   
+}
