@@ -120,6 +120,33 @@ public class Parser {
    private ParseTreeNodes.ParseTreeNode FactorContains(){
        return new ParseTreeNodes.Strings.ContainsExprNode(Parse(), Parse());
    }
+   private ParseTreeNodes.ParseTreeNode StringFactor(){
+       ParseTreeNodes.ParseTreeNode righthandSide;
+       switch(_Tok.GetToken()){
+           case LEFT:
+               Scan();
+               righthandSide = new ParseTreeNodes.Strings.LeftExprNode(Parse(),Parse());
+               Scan();
+               break;
+           case RIGHT:
+               Scan();
+               righthandSide = new ParseTreeNodes.Strings.RightExprNode(Parse(),Parse());
+               Scan();
+               break;
+//         case SUBSTRING:
+//             
+           case STRINGLIT:
+               righthandSide = new ParseTreeNodes.Strings.StringNode(_Tok.GetString());
+               Scan();
+               break;
+//         case CONVERTTOSTRING:
+//             lefthandSide = new ParseTreeNodes.Strings.ConcatenateExprNode(lefthandSide, ParseATreeNode(null)); 
+           default:
+               righthandSide = new ParseTreeNodes.Strings.StringNode("ERROR");
+               Scan();
+       }
+       return righthandSide;
+   }
    private ParseTreeNodes.ParseTreeNode ParseATreeNode(ParseTreeNodes.ParseTreeNode lefthandSide){
        boolean exitloop = false;
        switch(_Tok.GetToken()){
@@ -221,23 +248,14 @@ public class Parser {
                exitloop = true;
                break;
            case ANDPERSTAND:
-               //Scan();
-//               do while(_Tok.GetToken()== ParseTreeNodes.Tokens.ANDPERSTAND){
-//                   Scan();
-//                   if(_Tok.GetToken()==ParseTreeNodes.Tokens.STRINGLIT || _Tok.GetToken()==ParseTreeNodes.Tokens.NUMLIT )
-                   lefthandSide = new ParseTreeNodes.Strings.ConcatenateExprNode(lefthandSide, Parse());
-//               }
-               
+               Scan();
+               lefthandSide = new ParseTreeNodes.Strings.ConcatenateExprNode(lefthandSide, StringFactor());
                break;
            case RIGHT:
-               Scan();
-               lefthandSide = new ParseTreeNodes.Strings.RightExprNode(Parse(),Parse());
-               Scan();
+               lefthandSide = StringFactor();
                break;
            case LEFT:
-               Scan();
-               lefthandSide = new ParseTreeNodes.Strings.LeftExprNode(Parse(),Parse());
-               Scan();
+               lefthandSide = StringFactor();
                break;
 //           case LEN:
 //               break;

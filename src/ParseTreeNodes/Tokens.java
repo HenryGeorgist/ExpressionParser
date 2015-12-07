@@ -68,4 +68,5 @@ public enum Tokens {
     public static final EnumSet<Tokens> EXPR = EnumSet.of(PLUS,MINUS);
     public static final EnumSet<Tokens> TERM = EnumSet.of(TIMES,DIVIDE,EXPONENT);
     public static final EnumSet<Tokens> BOOLEANOPERATOR = EnumSet.of(EQ,LT,GT,LTE,GTE,NEQ,AND,OR);
+    public static final EnumSet<Tokens> STRINGOPERATOR = EnumSet.of(CONVERTTOSTRING,SUBSTRING,LEFT,RIGHT,ANDPERSTAND,STRINGLIT);
 }
