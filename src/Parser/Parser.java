@@ -35,6 +35,20 @@ public class Parser {
                ret =new ParseTreeNodes.Numerics.NumIntNode(Integer.parseInt(_Tok.GetString()));
                Scan();
                return ret;
+           case RAND:
+               ret = FactorRand();
+               return ret;
+           case RANDINT:
+               ret = FactorRandInt();
+               return ret;
+//           case RANDBETWEEN:
+//           case RANDINTBETWEEN:
+           case IF:
+               ret = FactorIf();
+               if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(ret.Type())){
+                   ret = new ParseTreeNodes.Strings.StringNode("IfStatementDoesNotProduceNumericalResult");
+               }
+               return ret;    
            case LPAREN:
                Scan();
                ret = ParentheticalStatement(ret);
@@ -50,15 +64,21 @@ public class Parser {
    }
    private ParseTreeNodes.ParseTreeNode NumTerm(ParseTreeNodes.ParseTreeNode lefthandSide){
        while(ParseTreeNodes.Tokens.TERM.contains(_Tok.GetToken())){
-           if(_Tok.GetToken()==ParseTreeNodes.Tokens.TIMES){
-               Scan();
-               lefthandSide = new ParseTreeNodes.Numerics.MultiplyExprNode(lefthandSide, NumFactor());
-           }else if(_Tok.GetToken()==ParseTreeNodes.Tokens.DIVIDE){
-               Scan();
-               lefthandSide = new ParseTreeNodes.Numerics.DivideExprNode(lefthandSide, NumFactor());
-           }else if(_Tok.GetToken()==ParseTreeNodes.Tokens.EXPONENT){
-               Scan();
-               lefthandSide = new ParseTreeNodes.Numerics.ExponentExprNode(lefthandSide, NumFactor());
+           if(null!=_Tok.GetToken())switch (_Tok.GetToken()) {
+               case TIMES:
+                   Scan();
+                   lefthandSide = new ParseTreeNodes.Numerics.MultiplyExprNode(lefthandSide, NumFactor());
+                   break;
+               case DIVIDE:
+                   Scan();
+                   lefthandSide = new ParseTreeNodes.Numerics.DivideExprNode(lefthandSide, NumFactor());
+                   break;
+               case EXPONENT:
+                   Scan();
+                   lefthandSide = new ParseTreeNodes.Numerics.ExponentExprNode(lefthandSide, NumFactor());
+                   break;
+               default:
+                   break;
            }
        }
        return lefthandSide;
@@ -117,6 +137,10 @@ public class Parser {
        Scan();
        return IfNode;
    }
+   private ParseTreeNodes.ParseTreeNode FactorSubString(){
+       Scan();
+       return new ParseTreeNodes.Strings.SubStringExprNode(Parse(),Parse(),Parse());
+   }
    private ParseTreeNodes.ParseTreeNode FactorContains(){
        return new ParseTreeNodes.Strings.ContainsExprNode(Parse(), Parse());
    }
@@ -133,8 +157,16 @@ public class Parser {
                righthandSide = new ParseTreeNodes.Strings.RightExprNode(Parse(),Parse());
                Scan();
                break;
-//         case SUBSTRING:
-//             
+           case IF:
+               righthandSide = FactorIf();
+               if(righthandSide.Type()!=ParseTreeNodes.TypeEnum.STRING){
+                   righthandSide = new ParseTreeNodes.Strings.StringNode("IfStatementDoesNotProduceString");
+               }
+               break;
+           case SUBSTRING:
+               righthandSide = FactorSubString();
+               Scan();
+               break;
            case STRINGLIT:
                righthandSide = new ParseTreeNodes.Strings.StringNode(_Tok.GetString());
                Scan();
@@ -146,6 +178,26 @@ public class Parser {
                Scan();
        }
        return righthandSide;
+   }
+   private ParseTreeNodes.ParseTreeNode FactorRand(){
+       Scan();
+       Scan(); 
+       if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+           Scan();
+           return new ParseTreeNodes.Numerics.RandExprNode();
+       }else{
+           return new ParseTreeNodes.Numerics.RandExprNode(ParseATreeNode(null));
+       }
+   }
+   private ParseTreeNodes.ParseTreeNode FactorRandInt(){
+       Scan();
+       Scan(); 
+       if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+           Scan();
+           return new ParseTreeNodes.Numerics.RandIntExprNode();
+       }else{
+           return new ParseTreeNodes.Numerics.RandIntExprNode(ParseATreeNode(null));
+       }
    }
    private ParseTreeNodes.ParseTreeNode ParseATreeNode(ParseTreeNodes.ParseTreeNode lefthandSide){
        boolean exitloop = false;
@@ -248,7 +300,7 @@ public class Parser {
                exitloop = true;
                break;
            case ANDPERSTAND:
-               Scan();
+               Scan(); //what if the next factor is an If statement? the if statement can produce a string...
                lefthandSide = new ParseTreeNodes.Strings.ConcatenateExprNode(lefthandSide, StringFactor());
                break;
            case RIGHT:
@@ -265,10 +317,12 @@ public class Parser {
 //               break;
 //           case ROUNDDOWN:
 //               break;
-//           case RAND:
-//               break;
-//           case RANDINT:
-//               break;
+           case RAND:
+               lefthandSide = FactorRand();
+               break;
+           case RANDINT:
+               lefthandSide = FactorRandInt();
+               break;
 //           case RANDBETWEEN:
 //               break;
 //           case RANDINTBETWEEN:
@@ -277,8 +331,10 @@ public class Parser {
 //               break;
 //           case TRIINV:
 //               break;
-//           case SUBSTRING:
-//               break;
+             case SUBSTRING:
+                 lefthandSide = FactorSubString();
+                 Scan();
+                 break;
 //           case INSTRING:
 //               break;
 //           case CONVERTTOINT:

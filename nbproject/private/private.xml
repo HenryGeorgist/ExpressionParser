@@ -6,8 +6,11 @@
             <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/Parser/Parser.java</file>
             <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/RightExprNode.java</file>
             <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/LeftExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/Scanner/Scanner.java</file>
             <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/ContainsExprNode.java</file>
+            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/StringNode.java</file>
+            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Token.java</file>
+            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/BinaryExprNode.java</file>
+            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Tokens.java</file>
         </group>
     </open-files>
 </project-private>
