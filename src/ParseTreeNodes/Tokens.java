@@ -64,7 +64,8 @@ public enum Tokens {
     CONVERTTOSTRING,
     CONVERTTOBOOLEAN,
     CONVERTTOSHORT,
-    CONVERTTOBYTE;
+    CONVERTTOBYTE,
+    VARIABLE;
     public static final EnumSet<Tokens> EXPR = EnumSet.of(PLUS,MINUS);
     public static final EnumSet<Tokens> TERM = EnumSet.of(TIMES,DIVIDE,EXPONENT);
     public static final EnumSet<Tokens> BOOLEANOPERATOR = EnumSet.of(EQ,LT,GT,LTE,GTE,NEQ,AND,OR);
