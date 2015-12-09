@@ -72,6 +72,32 @@ public class ParserTest {
         assertEquals("sd", _P.Parse("substring(asdf,1,2)").Evaluate().Result().toString());
         assertEquals("0.6465821602909256", _P.Parse("Rand(1234)").Evaluate().Result().toString());
         assertEquals("-1517918040", _P.Parse("RandINT(1234)").Evaluate().Result().toString());
+        ParseTreeNodes.TypeEnum[] types;
+        types = new ParseTreeNodes.TypeEnum[2];
+        types[0] = ParseTreeNodes.TypeEnum.STRING;
+        types[1] = ParseTreeNodes.TypeEnum.DOUBLE;
+        String[] Names;
+        Names = new String[2];
+        Names[0] = "A";
+        Names[1] = "B";
+        Object[] values;
+        values = new Object[2];
+        values[0] = "SomeString";
+        values[1] = 1.5;
+        _P.SetColumnNames(Names);
+        _P.SetTypes(types);
+        ParseTreeNodes.ParseTreeNode node = _P.Parse("[A] & morestring");
+        node.Update(values);
+        assertEquals("SomeStringmorestring", node.Evaluate().Result().toString());
+        values[0] = "OtherString";
+        node.Update(values);
+        assertEquals("OtherStringmorestring", node.Evaluate().Result().toString());
+        node = _P.Parse("[B]+.5");
+        node.Update(values);
+        assertEquals(2.0, node.Evaluate().Result());
+        values[1] = .5;
+        node.Update(values);
+        assertEquals(1.0, node.Evaluate().Result());
     }
     
 }

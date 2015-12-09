@@ -16,12 +16,14 @@ public class Variable extends ParseTreeNodes.ParseTreeNode{
     private Object _CurrentValue;
     private int _ColumnIndex;
     private final String _ColumnName;
-    public Variable(String ColumnName){
+    public Variable(String ColumnName, ParseTreeNodes.TypeEnum Type, int ColumnIndex){
         _ColumnName = ColumnName;
+        _ColumnIndex = ColumnIndex;
+        _Type = Type;
     }
     @Override
     public Tokens Token() {
-        return ParseTreeNodes.Tokens.VARIABLE;
+        return ParseTreeNodes.Tokens.COLUMN;
     }
     @Override
     public ParseTreeNodeResult Evaluate() {

@@ -11,14 +11,16 @@ package Parser;
 public class Parser {
    private Scanner.Scanner _Scanner;
    private ParseTreeNodes.Token _Tok;
-   //private String[] _VariableNames;
-   //private Type[] _VariableTypes;
+   private String[] _VariableNames;
+   private ParseTreeNodes.TypeEnum[] _VariableTypes;
    public Parser(Scanner.Scanner scanner){
        _Scanner = scanner;
    }
    public Parser(){
        
    }
+   public void SetTypes(ParseTreeNodes.TypeEnum[] types){_VariableTypes = types;}
+   public void SetColumnNames(String[] ColumnNames){_VariableNames = ColumnNames;}
    private void Scan(){
        _Tok = _Scanner.Scan();
    }
@@ -27,6 +29,13 @@ public class Parser {
        ParseTreeNodes.ParseTreeNode ret = null;
        //Scan();
        switch(_Tok.GetToken()){
+           case COLUMN:
+               ret = FactorColumn();
+               if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(ret.Type())){
+                   return ret;
+               }
+               return new ParseTreeNodes.Strings.StringNode("NonNumerical Column");
+               
            case NUMLIT:
                ret = new ParseTreeNodes.Numerics.NumNode(Double.parseDouble(_Tok.GetString()));
                Scan();
@@ -144,9 +153,25 @@ public class Parser {
    private ParseTreeNodes.ParseTreeNode FactorContains(){
        return new ParseTreeNodes.Strings.ContainsExprNode(Parse(), Parse());
    }
+   private ParseTreeNodes.ParseTreeNode FactorColumn(){
+       ParseTreeNodes.ParseTreeNode ret;
+       for(int i = 0; i<_VariableNames.length;i++){
+           if(_VariableNames[i].equals(_Tok.GetString())){
+            ret = new ParseTreeNodes.Variables.Variable(_Tok.GetString(),_VariableTypes[i],i);
+            Scan();
+            Scan();
+            return ret;
+           }
+       }
+       return new ParseTreeNodes.Strings.StringNode("Column Name does not exist");
+   }
    private ParseTreeNodes.ParseTreeNode StringFactor(){
        ParseTreeNodes.ParseTreeNode righthandSide;
        switch(_Tok.GetToken()){
+           case COLUMN:
+               righthandSide = FactorColumn();
+               if(righthandSide.Type()!=ParseTreeNodes.TypeEnum.STRING){righthandSide = new ParseTreeNodes.Strings.StringNode("Column not a string");}
+               break;
            case LEFT:
                Scan();
                righthandSide = new ParseTreeNodes.Strings.LeftExprNode(Parse(),Parse());
@@ -208,6 +233,7 @@ public class Parser {
                break;
            case RPAREN:
                exitloop = true;
+               break;
 //           case LBRACKET:
 //               break;
 //           case RBRACKET:
@@ -216,8 +242,9 @@ public class Parser {
 //               break;
 //           case CRBRACKET:
 //               break;
-//           case COLUMN:
-//               break;
+           case COLUMN:
+               lefthandSide = FactorColumn();
+               break;
            case PLUS:
                lefthandSide = NumExpr(lefthandSide);
                break;

@@ -183,7 +183,7 @@ public class Scanner {
                     ParseTreeNodes.Token ColumnName = Scan();
                     if(ColumnName.GetToken()==ParseTreeNodes.Tokens.STRINGLIT){
                         //check if the other bracket is there.
-                        _c = GetCharacter();
+                        //_c = GetCharacter();
                         if("]".equals(Character.toString(_c))){
                             return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.COLUMN,ColumnName.GetString(),_line,colpos);
                         }else{
