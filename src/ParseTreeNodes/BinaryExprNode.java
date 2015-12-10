@@ -77,11 +77,6 @@ public abstract class BinaryExprNode extends ParseTreeNode {
         return "(" + leftNode.ToString()+ " " + OpName() + " " + rightNode.ToString() + ")";
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        leftNode.SetColumnNumbers(ColumnNames);
-        rightNode.SetColumnNumbers(ColumnNames);
-    }
-    @Override
     public boolean ContainsVariable() {
         return (leftNode.ContainsVariable()|rightNode.ContainsVariable());
     }

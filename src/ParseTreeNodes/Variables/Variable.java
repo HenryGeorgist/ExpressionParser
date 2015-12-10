@@ -38,13 +38,6 @@ public class Variable extends ParseTreeNodes.ParseTreeNode{
         return "[" + _ColumnName + "]";
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        for(int i = 0;i<ColumnNames.length;i++){
-            if(ColumnNames[i].equals(_ColumnName)){_ColumnIndex = i;}
-        }
-        //should probably check that the value was set, what if it wasnt?
-    }
-    @Override
     public boolean ContainsVariable() {
         return true;
     }

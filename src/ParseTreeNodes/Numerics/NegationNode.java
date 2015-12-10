@@ -46,10 +46,6 @@ public class NegationNode extends ParseTreeNodes.ParseTreeNode {
         return "-" + _d.ToString();
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        //do nothing, this is a terminal branch in the tree.
-    }
-    @Override
     public boolean ContainsVariable() {
         return false;
     }   

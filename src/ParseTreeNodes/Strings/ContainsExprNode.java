@@ -53,11 +53,6 @@ public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
         return "Contains(" + MS + " , " + SS + ")";
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        _MainString.SetColumnNumbers(ColumnNames);
-        _SearchString.SetColumnNumbers(ColumnNames);
-    }
-    @Override
     public boolean ContainsVariable() {
         if(_MainString.ContainsVariable()){
             return true;

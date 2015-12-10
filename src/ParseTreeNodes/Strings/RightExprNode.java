@@ -48,11 +48,6 @@ public class RightExprNode extends ParseTreeNodes.ParseTreeNode{
         return "Right(" + MainString.ToString() + ", " + NumChar.ToString() + ")";
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        MainString.SetColumnNumbers(ColumnNames);
-        NumChar.SetColumnNumbers(ColumnNames);
-    }
-    @Override
     public boolean ContainsVariable() {
         if(MainString.ContainsVariable()){
             return true;

@@ -7,6 +7,11 @@ package Scanner;
 
 //import java.io.IOException;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 /**
  *
  * @author Will_and_Sara
@@ -26,10 +31,9 @@ public class Scanner {
     private char GetCharacter(){
         char[] read= new char[1];
         try {
-            _sr.read(read,0,1);//figure out how to do a try catch
+            _sr.read(read,0,1);
         } catch (java.io.IOException ex) {
-            //Logger.getLogger(Scanner.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;//i dont think this is right
+            return "\u0000".toCharArray()[0];//i dont think this is right
         }
         _pos++;
         return read[0];//if read[0]=-1 then end of file.
@@ -42,6 +46,16 @@ public class Scanner {
         }while(Character.isLetter(_c)| Character.isDigit(_c)| "_".equals(Character.toString(_c)));//check if it is a letter a digit or an underbar.
         _putback = true;
         return s;
+    }
+    private String BuildQuotedString(){
+        String s = "";
+            _c = GetCharacter();//get rid of the quote character
+            do{
+                s+=_c;//Character.toString(_c)
+                _c = GetCharacter();
+            }while(!"\"".equals(Character.toString(_c)) || !"'".equals(Character.toString(_c))); //infinate loop, need to add the exit character in case the end quote is not supplied.
+            _c = GetCharacter(); //get rid of the end quote.
+            return s;
     }
     private NumberParseResult BuildNum(){
         String s="";
@@ -61,6 +75,81 @@ public class Scanner {
         }while(Character.isDigit(_c)| ".".equals(Character.toString(_c)));
         _putback = true;
         return new NumberParseResult(s,hasDecimal,isNumerical);
+    }
+    private ParseTreeNodes.Token BuildOperator(boolean isSpace){
+        int pos = _pos;
+        if(isSpace){
+            _c = GetCharacter();
+            pos-=1;
+        }
+        if(null != Character.toString(_c))switch (Character.toString(_c)) {
+            case "="://what about =< or =>
+                _c = GetCharacter();
+                if(!" ".equals(Character.toString(_c))){_putback = true;}
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EQ, "=", _line, pos);  
+            case "&":
+                _c = GetCharacter();
+                if(!" ".equals(Character.toString(_c))){_putback = true;}
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ANDPERSTAND, "&", _line, pos);
+            case "+":
+                _c = GetCharacter();
+                if(!" ".equals(Character.toString(_c))){_putback = true;} 
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.PLUS, "+", _line, pos);
+            case "-":
+                _c = GetCharacter();
+                if(!" ".equals(Character.toString(_c))){_putback = true;} 
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.MINUS, "-", _line, pos);
+            case "/":
+                _c = GetCharacter();
+                if(!" ".equals(Character.toString(_c))){_putback = true;}
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.DIVIDE, "/", _line, pos);
+             case "*":
+                _c = GetCharacter();
+                if(!" ".equals(Character.toString(_c))){_putback = true;}
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.TIMES, "*", _line, pos);
+             case "^":
+                _c = GetCharacter();
+                if(!" ".equals(Character.toString(_c))){_putback = true;}  
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EXPONENT, "^", _line, pos);
+             case "<":
+                _c = GetCharacter();
+                if("=".equals(Character.toString(_c))){
+                    _c = GetCharacter();
+                    if(!" ".equals(Character.toString(_c))){_putback = true;}
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.LTE, "<=", _line, pos);
+                }else{
+                    if(!" ".equals(Character.toString(_c))){_putback = true;}
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.LT, "<", _line, pos); 
+                }
+             case ">":
+                _c = GetCharacter();
+                if("=".equals(Character.toString(_c))){
+                    _c = GetCharacter();
+                    if(!" ".equals(Character.toString(_c))){_putback = true;}
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.GTE, ">=", _line, pos);
+                }else{
+                    if(!" ".equals(Character.toString(_c))){_putback = true;}
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.GT, ">", _line, pos); 
+                }
+             case "!":
+                _c = GetCharacter();
+                if("=".equals(Character.toString(_c))){
+                    _c = GetCharacter();
+                    if(!" ".equals(Character.toString(_c))){_putback = true;}
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.NEQ, "!=", _line, pos);
+                }else{
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "! was not followed by =", _line, pos); 
+                }                 
+            default:
+                if(isSpace){
+                    _putback = true;
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space outside of quotes (single or double) without an operator following", _line, pos);
+                }else{
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found " + _c + " and it was recognized as an operator but unparseable.", _line, pos);
+                }
+        }else{
+            return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space outside of quotes (single or double) without an operator following", _line, pos);
+        }
     }
     private ParseTreeNodes.Tokens KeywordLookup(String ID){
         String toUpperCase = ID.toUpperCase();
@@ -193,78 +282,36 @@ public class Scanner {
                         return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Encounterd [ followed by something that wasnt recognized as a string literal", _line, colpos);
                     }
                 case "+":
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.PLUS,C,_line,_pos);
+                    return BuildOperator(false);
                 case "-":
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.MINUS,C,_line,_pos);
+                    return BuildOperator(false);
                 case "*":
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.TIMES,C,_line,_pos);
+                    return BuildOperator(false);
                 case "/":
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.DIVIDE,C,_line,_pos);
+                    return BuildOperator(false);
                 case "^":
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EXPONENT,C,_line,_pos);
+                    return BuildOperator(false);
                 case "=":
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EQ,C,_line,_pos);
+                    return BuildOperator(false);
                 case "!":
-                    //determine if the next character is =
-                    _c = GetCharacter();
-                    if("=".equals(Character.toString(_c))){
-                        return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.NEQ, C+"=", _line, _pos-1);
-                    }else{
-                        //not not equals?
-                        return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, C+" was not followed by =", _line, _pos-1);
-                    }
+                    return BuildOperator(false);
                 case "<":
-                    //determine if the next character is =
-                    _c = GetCharacter();
-                    if("=".equals(Character.toString(_c))){
-                        return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.LTE, C+"=", _line, _pos-1);
-                    }else{
-                        _putback = true;
-                        return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.LT, C, _line, _pos-1);
-                    }
+                    return BuildOperator(false);
                 case ">":
-                    //determine if the next character is =
-                    _c = GetCharacter();
-                    if("=".equals(Character.toString(_c))){
-                        return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.GTE, C+"=", _line, _pos-1);
-                    }else{
-                        _putback = true;
-                        return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.GT, C, _line, _pos-1);
-                    }
+                    return BuildOperator(false);
                 case ",":
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.COMMA,C,_line,_pos);
                 case ".":
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR,C + " was found outside of a number or a string",_line,_pos);
                 case "'":
                     //single quote, read until next single quote
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.STRINGLIT,C,_line,_pos);
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.STRINGLIT,"BuildQuotedString()",_line,_pos);
                 case "\""://double quote.
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.STRINGLIT,C,_line,_pos);
-                case "&"://should i check for space&space and space=space?
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ANDPERSTAND,C,_line,_pos);
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.STRINGLIT,"BuildQuotedString()",_line,_pos);
+                case "&":
+                    return BuildOperator(false);
                 case " ":
-                    //need to check if the user is inserting spaces? will the code ever get here or would it be part of the build id?
-                    _c = GetCharacter();
-                    if("=".equals(Character.toString(_c))){
-                        _c = GetCharacter();
-                        if(" ".equals(Character.toString(_c))){
-                           return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EQ, "=", _line, _pos-2); 
-                        }else{
-                            _putback = true;
-                            return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space with an equal but not the last space.", _line, _pos); 
-                        }  
-                    }else if("&".equals(Character.toString(_c))){
-                        _c = GetCharacter();
-                        if(" ".equals(Character.toString(_c))){
-                           return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ANDPERSTAND, "&", _line, _pos-2); 
-                        }else{
-                            _putback = true;
-                            return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space with an equal but not the last space.", _line, _pos); 
-                        }
-                    }else{
-                        _putback = true;
-                        return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space without a = or & following", _line, _pos-1);
-                    }
+                    return BuildOperator(true);
                 case ""://this should catch the end of file, but it doesnt.
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EOF,"End of File", _line,_pos);
                 default:

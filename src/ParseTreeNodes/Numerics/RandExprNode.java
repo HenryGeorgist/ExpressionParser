@@ -48,9 +48,5 @@ public class RandExprNode extends ParseTreeNodes.ParseTreeNode{
         }  
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        if(_Seed!=null){_Seed.SetColumnNumbers(ColumnNames);}
-    }
-    @Override
     public boolean ContainsVariable() {return true;}
 }

@@ -67,12 +67,6 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
         }
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        _Condition.SetColumnNumbers(ColumnNames);
-        _Then.SetColumnNumbers(ColumnNames);
-        _Else.SetColumnNumbers(ColumnNames);
-    }
-    @Override
     public boolean ContainsVariable() {
         if(_Condition.ContainsVariable()){
             return true;

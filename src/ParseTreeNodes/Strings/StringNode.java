@@ -32,10 +32,6 @@ public class StringNode  extends ParseTreeNodes.ParseTreeNode {
         return _s;
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        //do nothing, this is a terminal branch in the tree.
-    }
-    @Override
     public boolean ContainsVariable() {
         return false;
     }  

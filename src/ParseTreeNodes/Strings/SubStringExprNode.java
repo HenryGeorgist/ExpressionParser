@@ -55,12 +55,6 @@ public class SubStringExprNode extends ParseTreeNodes.ParseTreeNode{
         return "SubString(" + _MainString.ToString() + ", " + _StartPos.ToString() + ", " + _NumChar.ToString() + ")";
     }
     @Override
-    public void SetColumnNumbers(String[] ColumnNames) {
-        _MainString.SetColumnNumbers(ColumnNames);
-        _StartPos.SetColumnNumbers(ColumnNames);
-        _NumChar.SetColumnNumbers(ColumnNames);
-    }
-    @Override
     public boolean ContainsVariable() {
         if(_MainString.ContainsVariable()){
             return true;

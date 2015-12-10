@@ -15,7 +15,6 @@ public abstract class ParseTreeNode {
     public abstract ParseTreeNodeResult Evaluate();
     public abstract void Update(Object[] row);
     public abstract String ToString();
-    public abstract void SetColumnNumbers(String[] ColumnNames);
     public abstract boolean ContainsVariable();
     public TypeEnum Type(){return _Type;}
 }
