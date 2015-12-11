@@ -54,7 +54,7 @@ public class ParserTest {
         assertEquals(false, _P.Parse("3>=11").Evaluate().Result());
         assertEquals(true, _P.Parse("3<=11").Evaluate().Result());
         assertEquals(false, _P.Parse("fish = cow").Evaluate().Result());
-        assertEquals(true, _P.Parse("fish = fish").Evaluate().Result());
+        assertEquals(true, _P.Parse("'fi sh' = \"fi sh\"").Evaluate().Result());
         assertEquals(false, _P.Parse("fi & sh = cow").Evaluate().Result());
         assertEquals(true, _P.Parse("fi & sh = fish").Evaluate().Result());
         assertEquals(true, _P.Parse("fish = fi & sh").Evaluate().Result());

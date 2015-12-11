@@ -30,13 +30,15 @@ public class Scanner {
     }
     private char GetCharacter(){
         char[] read= new char[1];
+        int result = 0;
         try {
-            _sr.read(read,0,1);
+            result = _sr.read(read,0,1);
+            if(result == -1){_eof = true;}
         } catch (java.io.IOException ex) {
             return "\u0000".toCharArray()[0];//i dont think this is right
         }
         _pos++;
-        return read[0];//if read[0]=-1 then end of file.
+        return read[0];
     }
     private String BuildID(){
         String s = "";
@@ -47,13 +49,23 @@ public class Scanner {
         _putback = true;
         return s;
     }
-    private String BuildQuotedString(){
+    private String BuildSingleQuotedString(){
         String s = "";
             _c = GetCharacter();//get rid of the quote character
             do{
                 s+=_c;//Character.toString(_c)
                 _c = GetCharacter();
-            }while(!"\"".equals(Character.toString(_c)) || !"'".equals(Character.toString(_c))); //infinate loop, need to add the exit character in case the end quote is not supplied.
+            }while(!"'".equals(Character.toString(_c)) & !_eof); //infinate loop, need to add the exit character in case the end quote is not supplied.
+            _c = GetCharacter(); //get rid of the end quote.
+            return s;
+    }
+        private String BuildDoubleQuotedString(){
+        String s = "";
+            _c = GetCharacter();//get rid of the quote character
+            do{
+                s+=_c;//Character.toString(_c)
+                _c = GetCharacter();
+            }while(!"\"".equals(Character.toString(_c)) & !_eof); //infinate loop, need to add the exit character in case the end quote is not supplied.
             _c = GetCharacter(); //get rid of the end quote.
             return s;
     }
@@ -76,13 +88,9 @@ public class Scanner {
         _putback = true;
         return new NumberParseResult(s,hasDecimal,isNumerical);
     }
-    private ParseTreeNodes.Token BuildOperator(boolean isSpace){
+    private ParseTreeNodes.Token BuildOperator(){
         int pos = _pos;
-        if(isSpace){
-            _c = GetCharacter();
-            pos-=1;
-        }
-        if(null != Character.toString(_c))switch (Character.toString(_c)) {
+        switch (Character.toString(_c)) {
             case "="://what about =< or =>
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;}
@@ -141,14 +149,8 @@ public class Scanner {
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "! was not followed by =", _line, pos); 
                 }                 
             default:
-                if(isSpace){
-                    _putback = true;
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space outside of quotes (single or double) without an operator following", _line, pos);
-                }else{
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found " + _c + " and it was recognized as an operator but unparseable.", _line, pos);
-                }
-        }else{
-            return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space outside of quotes (single or double) without an operator following", _line, pos);
+                _putback = true;
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space outside of quotes (single or double) without an operator following", _line, pos);
         }
     }
     private ParseTreeNodes.Tokens KeywordLookup(String ID){
@@ -190,8 +192,6 @@ public class Scanner {
                 return ParseTreeNodes.Tokens.NORMINV;
             case "TRIINV":
                 return ParseTreeNodes.Tokens.TRIINV;
-            case "INSTRING":
-                return ParseTreeNodes.Tokens.INSTRING;
             case "SUBSTRING":
                 return ParseTreeNodes.Tokens.SUBSTRING;
             case "CONTAINS":
@@ -282,36 +282,37 @@ public class Scanner {
                         return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Encounterd [ followed by something that wasnt recognized as a string literal", _line, colpos);
                     }
                 case "+":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case "-":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case "*":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case "/":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case "^":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case "=":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case "!":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case "<":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case ">":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case ",":
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.COMMA,C,_line,_pos);
                 case ".":
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR,C + " was found outside of a number or a string",_line,_pos);
                 case "'":
                     //single quote, read until next single quote
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.STRINGLIT,"BuildQuotedString()",_line,_pos);
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.STRINGLIT,BuildSingleQuotedString(),_line,_pos);
                 case "\""://double quote.
-                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.STRINGLIT,"BuildQuotedString()",_line,_pos);
+                    return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.STRINGLIT,BuildDoubleQuotedString(),_line,_pos);
                 case "&":
-                    return BuildOperator(false);
+                    return BuildOperator();
                 case " ":
-                    return BuildOperator(true);
+                    _c = GetCharacter();
+                    return BuildOperator();
                 case ""://this should catch the end of file, but it doesnt.
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EOF,"End of File", _line,_pos);
                 default:
