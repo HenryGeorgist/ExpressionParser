@@ -57,7 +57,6 @@ public enum Tokens {
     NORMINV,
     TRIINV,
     SUBSTRING,
-    INSTRING,
     CONVERTTOINT,
     CONVERTTODOUBLE,
     CONVERTTOSINGLE,

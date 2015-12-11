@@ -209,9 +209,9 @@ public class Parser {
        Scan(); 
        if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
            Scan();
-           return new ParseTreeNodes.Numerics.RandExprNode();
+           return new ParseTreeNodes.Variables.RandExprNode();
        }else{
-           return new ParseTreeNodes.Numerics.RandExprNode(ParseATreeNode(null));
+           return new ParseTreeNodes.Variables.RandExprNode(ParseATreeNode(null));
        }
    }
    private ParseTreeNodes.ParseTreeNode FactorRandInt(){
@@ -219,9 +219,9 @@ public class Parser {
        Scan(); 
        if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
            Scan();
-           return new ParseTreeNodes.Numerics.RandIntExprNode();
+           return new ParseTreeNodes.Variables.RandIntExprNode();
        }else{
-           return new ParseTreeNodes.Numerics.RandIntExprNode(ParseATreeNode(null));
+           return new ParseTreeNodes.Variables.RandIntExprNode(ParseATreeNode(null));
        }
    }
    private ParseTreeNodes.ParseTreeNode ParseATreeNode(ParseTreeNodes.ParseTreeNode lefthandSide){
