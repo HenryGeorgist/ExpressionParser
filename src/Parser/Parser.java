@@ -13,7 +13,7 @@ import java.util.Observer;
  *
  * @author Will_and_Sara
  */
-public class Parser implements Observer{
+public class Parser extends Observable implements Observer{
    private Scanner.Scanner _Scanner;
    private ParseTreeNodes.Token _Tok;
    private String[] _VariableNames;
@@ -31,6 +31,8 @@ public class Parser implements Observer{
    public void SetColumnNames(String[] ColumnNames){_VariableNames = ColumnNames;}
    private void Scan(){
        _Tok = _Scanner.Scan();
+       this.setChanged();
+       this.notifyObservers(_Tok);
    }
    private ParseTreeNodes.ParseTreeNode NumFactor(){
        //if the result of parseatreenode is numerical return, else return an error.
@@ -414,6 +416,15 @@ public class Parser implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        _Errors.add(arg.toString());
+        if(arg instanceof String){
+            _Errors.add(arg.toString());
+        }else if(arg instanceof ParseTreeNodes.Token){
+            //using the scan() method to identify when tokens are found rather than a report from the scanner...
+            //this.setChanged();
+            //this.notifyObservers(arg);
+        }else{
+            //ignored.
+        }
+        
     }
 }
