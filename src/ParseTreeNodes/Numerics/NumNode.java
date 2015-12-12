@@ -13,6 +13,7 @@ public class NumNode extends ParseTreeNodes.ParseTreeNode {
     public NumNode(Double d){
         _d = d;
         _Type = ParseTreeNodes.TypeEnum.DOUBLE;
+        
     }
     @Override
     public ParseTreeNodes.Tokens Token() {

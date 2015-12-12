@@ -12,6 +12,7 @@ package ParseTreeNodes.Booleans;
 public class BooleanNode extends ParseTreeNodes.ParseTreeNode {
     private String _s;
     public BooleanNode(String s){
+        super();
         _s = s;//must be true True false or False unless i set the environment variables to be different
         _Type = ParseTreeNodes.TypeEnum.BOOLEAN;
     }

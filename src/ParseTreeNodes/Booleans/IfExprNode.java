@@ -18,22 +18,45 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
     private ParseTreeNodes.ParseTreeNode _Else;
     public IfExprNode(ParseTreeNodes.ParseTreeNode Condition){
         //must produce a boolean
-        if(Condition.Type()==ParseTreeNodes.TypeEnum.BOOLEAN){
-            _Condition = Condition;
+        super();
+        if(Condition == null){
+            _Errors.add("The condition in an if statement is not defined");
+        }else{
+            if(Condition.Type()==ParseTreeNodes.TypeEnum.BOOLEAN){
+                _Condition = Condition;
+            }else{
+                _Errors.add("The condition " + Condition.ToString() + " is used in an if statement, and does not produce a boolean.");
+                _Type = ParseTreeNodes.TypeEnum.ERR;
+            }
         }
     }
     public void SetThen(ParseTreeNodes.ParseTreeNode ThenStatement){
         //can be any type
-        _Type = ThenStatement.Type();
-        _Then = ThenStatement;
+        if(ThenStatement == null){
+            _Type = ParseTreeNodes.TypeEnum.ERR;
+            _Errors.add("The then expression in an if statment is not defined");
+        }else{
+            _Type = ThenStatement.Type();
+            _Then = ThenStatement;
+        }
+
         
     }
     public void SetElse(ParseTreeNodes.ParseTreeNode ElseStatement){
         //must be the same as the Then type
         //what if then has not been set?
-        if(_Then.Type()==ElseStatement.Type()){
+        if(ElseStatement == null){
+            _Type = ParseTreeNodes.TypeEnum.ERR;
+            _Errors.add("The then statement in an if statment is not defined");
+        }else{
+            if(_Then.Type()==ElseStatement.Type()){
             _Else = ElseStatement;
+            }else{
+                _Type = ParseTreeNodes.TypeEnum.ERR;
+                _Errors.add("The else statment and the then statment in an if statement do not produce the same output type.");
+            }
         }
+
         //if types dont match, "The Then statement and the Else statement in an If Statement must produce the same output type"
     }
     @Override

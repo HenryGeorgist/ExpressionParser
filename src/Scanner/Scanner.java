@@ -5,18 +5,13 @@
  */
 package Scanner;
 
-//import java.io.IOException;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import java.util.Observable;
 
 /**
  *
  * @author Will_and_Sara
  */
-public class Scanner {
+public class Scanner extends Observable {
     private java.io.InputStreamReader _sr;
     private boolean _putback = true;
     private boolean _eof = false;
@@ -150,6 +145,8 @@ public class Scanner {
                 }                 
             default:
                 _putback = true;
+                this.setChanged();
+                this.notifyObservers("Found a space outside of quotes (single or double) without an operator following");
                 return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space outside of quotes (single or double) without an operator following", _line, pos);
         }
     }
@@ -261,9 +258,13 @@ public class Scanner {
                         if("}".equals(Character.toString(_c))){
                             return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.INDEX,index.GetString(),_line,indexpos);
                         }else{
+                            this.setChanged();
+                            this.notifyObservers("Encountered { followed by a string literal but no }");
                         return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Encounterd { followed by a string literal but no }", _line, indexpos);
                     }
                     }else{
+                        this.setChanged();
+                        this.notifyObservers("Encountered { followed by something that wasnt recognized as a string literal.");
                         return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Encounterd { followed by something that wasnt recognized as a string literal", _line, indexpos);
                     }
                 case "[":

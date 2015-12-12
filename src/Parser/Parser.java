@@ -4,20 +4,28 @@
  * and open the template in the editor.
  */
 package Parser;
+
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  *
  * @author Will_and_Sara
  */
-public class Parser {
+public class Parser implements Observer{
    private Scanner.Scanner _Scanner;
    private ParseTreeNodes.Token _Tok;
    private String[] _VariableNames;
    private ParseTreeNodes.TypeEnum[] _VariableTypes;
+   private ArrayList<String> _Errors;
    public Parser(Scanner.Scanner scanner){
        _Scanner = scanner;
+       _Scanner.addObserver(this);
+       _Errors = new ArrayList<>();
    }
    public Parser(){
-       
+       _Errors = new ArrayList<>();
    }
    public void SetTypes(ParseTreeNodes.TypeEnum[] types){_VariableTypes = types;}
    public void SetColumnNames(String[] ColumnNames){_VariableNames = ColumnNames;}
@@ -27,6 +35,7 @@ public class Parser {
    private ParseTreeNodes.ParseTreeNode NumFactor(){
        //if the result of parseatreenode is numerical return, else return an error.
        ParseTreeNodes.ParseTreeNode ret = null;
+       //ret.addObserver(this);
        //Scan();
        switch(_Tok.GetToken()){
            case COLUMN:
@@ -64,7 +73,7 @@ public class Parser {
                //Scan();
                return ret;
            default:
-           return ret;//need to create an error node
+           return new ParseTreeNodes.Strings.StringNode(_Tok.GetString());//need to create an error node
        }
 
    }
@@ -397,8 +406,14 @@ public class Parser {
       public ParseTreeNodes.ParseTreeNode Parse(String Expression){
        java.io.InputStream is = new java.io.ByteArrayInputStream(Expression.getBytes());
        _Scanner = new Scanner.Scanner(is);
+       _Scanner.addObserver(this);
        Scan();
        ParseTreeNodes.ParseTreeNode Result = ParseATreeNode(null);
        return Result;
    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        _Errors.add(arg.toString());
+    }
 }

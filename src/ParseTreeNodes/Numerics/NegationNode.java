@@ -12,11 +12,13 @@ package ParseTreeNodes.Numerics;
 public class NegationNode extends ParseTreeNodes.ParseTreeNode {
     private ParseTreeNodes.ParseTreeNode _d;
     public NegationNode(ParseTreeNodes.ParseTreeNode d){
+        super();
         _d = d;
         if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(_d.Type())){
           _Type = _d.Type();  
         }else{
             _Type = ParseTreeNodes.TypeEnum.ERR;
+            _Errors.add("A minus sign was followed by something that does not produce a numerical output");
         }
         
     }
