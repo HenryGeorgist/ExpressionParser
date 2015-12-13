@@ -16,21 +16,27 @@ public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
     private ParseTreeNodes.ParseTreeNode _MainString;
     private ParseTreeNodes.ParseTreeNode _SearchString;
     public ContainsExprNode(ParseTreeNodes.ParseTreeNode MainString, ParseTreeNodes.ParseTreeNode SearchString){
-        //Check if they are null...        
-        //make sure both are strings?
-        if(MainString.Type()==ParseTreeNodes.TypeEnum.STRING && SearchString.Type()==ParseTreeNodes.TypeEnum.STRING){
-            _MainString = MainString;
-            _SearchString = SearchString;
-            _Type = ParseTreeNodes.TypeEnum.BOOLEAN;
-        }else{
-            //else, errors?
+        if(MainString == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
+            _Errors.add("The Main string in the Contains Expression is not defined.");
+        }else{
+            if(SearchString == null){
+                _Type = ParseTreeNodes.TypeEnum.ERR;
+                _Errors.add("The Search String in the Contains Expression is not defined.");
+            }else{
+                if(MainString.Type()==ParseTreeNodes.TypeEnum.STRING && SearchString.Type()==ParseTreeNodes.TypeEnum.STRING){
+                    _MainString = MainString;
+                    _SearchString = SearchString;
+                    _Type = ParseTreeNodes.TypeEnum.BOOLEAN;
+                }else{
+                    _Errors.add("Cannot evaluate Contains unless both arguments are strings.");
+                    _Type = ParseTreeNodes.TypeEnum.ERR;
+                }
+            }
         }
     }
     @Override
-    public Tokens Token() {
-        return ParseTreeNodes.Tokens.CONTAINS;
-    }
+    public Tokens Token() {return ParseTreeNodes.Tokens.CONTAINS;}
     @Override
     public ParseTreeNodeResult Evaluate() {
         return new ParseTreeNodes.ParseTreeNodeResult(_MainString.Evaluate().Result().toString().contains(_SearchString.Evaluate().Result().toString()),_Type);
@@ -45,10 +51,10 @@ public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
         String MS;
         String SS;
         if(_MainString == null){
-            MS = "Error";
+            MS = "";
         }else{ MS = _MainString.ToString();}
         if(_SearchString == null){
-            SS = "Error";
+            SS = "";
         }else{ SS = _SearchString.ToString();}
         return "Contains(" + MS + " , " + SS + ")";
     }

@@ -16,11 +16,27 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
     private ParseTreeNodes.ParseTreeNode MainString;
     private ParseTreeNodes.ParseTreeNode NumChar;
     public LeftExprNode(ParseTreeNodes.ParseTreeNode string, ParseTreeNodes.ParseTreeNode NumCharacters){
-        if(string.Type() == ParseTreeNodes.TypeEnum.STRING){
+        if(string==null){
+            _Type = ParseTreeNodes.TypeEnum.ERR;
+            _Errors.add("The string argument of the Left function was not defined.");
+        }else{
+            if(string.Type() == ParseTreeNodes.TypeEnum.STRING){
             MainString = string;
-            if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(NumCharacters.Type())){
-                NumChar = NumCharacters;
-                _Type = ParseTreeNodes.TypeEnum.STRING;
+                if(NumCharacters==null){
+                    _Type = ParseTreeNodes.TypeEnum.ERR;
+                    _Errors.add("The number of characters argument of the Left function was not defined.");
+                }else{
+                    if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(NumCharacters.Type())){
+                        NumChar = NumCharacters;
+                        _Type = ParseTreeNodes.TypeEnum.STRING;
+                    }else{
+                        _Type = ParseTreeNodes.TypeEnum.ERR;
+                        _Errors.add("The number of characters argument of the Left function does not produce an integer result.");
+                    }                
+                }
+            }else{
+                _Type = ParseTreeNodes.TypeEnum.ERR;
+                _Errors.add("The string argument of the Left function does not produce a string as the output type.");
             }
         }
     }
@@ -45,7 +61,19 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
     }
     @Override
     public String ToString() {
-        return "Left(" + MainString.ToString() + ", " + NumChar.ToString() + ")";
+        String ms;
+        if(MainString == null){
+            ms = "";
+        }else{
+            ms = MainString.ToString();
+        }
+        String nc;
+        if(NumChar == null){
+            nc = "";
+        }else{
+            nc = NumChar.ToString();
+        }
+        return "Left(" + ms + ", " + nc + ")";
     }
     @Override
     public boolean ContainsVariable() {

@@ -18,7 +18,6 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
     private ParseTreeNodes.ParseTreeNode _Else;
     public IfExprNode(ParseTreeNodes.ParseTreeNode Condition){
         //must produce a boolean
-        super();
         if(Condition == null){
             _Errors.add("The condition in an if statement is not defined");
         }else{

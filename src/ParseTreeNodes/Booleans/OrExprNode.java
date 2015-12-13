@@ -31,16 +31,10 @@ public class OrExprNode extends ParseTreeNodes.BinaryExprNode{
     }
     @Override
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
-                //determine the type of the left and the right node.
-        if(Type() == ParseTreeNodes.TypeEnum.BOOLEAN){
-            if (Boolean.parseBoolean(leftNode.Evaluate().Result().toString())){
-                return new ParseTreeNodes.ParseTreeNodeResult(true,ParseTreeNodes.TypeEnum.BOOLEAN);
-            }else{
-                return new ParseTreeNodes.ParseTreeNodeResult(Boolean.parseBoolean(rightNode.Evaluate().Result().toString()),ParseTreeNodes.TypeEnum.BOOLEAN);
-            }
-          }else{
-            //not Boolean... cannot output?
-           return new ParseTreeNodes.ParseTreeNodeResult(false,ParseTreeNodes.TypeEnum.ERR);
+        if (Boolean.parseBoolean(leftNode.Evaluate().Result().toString())){
+            return new ParseTreeNodes.ParseTreeNodeResult(true,ParseTreeNodes.TypeEnum.BOOLEAN);
+        }else{
+            return new ParseTreeNodes.ParseTreeNodeResult(rightNode.Evaluate().Result(),ParseTreeNodes.TypeEnum.BOOLEAN);
         }
     }   
 }

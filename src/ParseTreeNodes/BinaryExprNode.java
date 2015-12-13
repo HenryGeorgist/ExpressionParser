@@ -15,7 +15,6 @@ public abstract class BinaryExprNode extends ParseTreeNode {
     public abstract String OpString();
     public abstract String OpName();
     public BinaryExprNode(ParseTreeNode left, ParseTreeNode right){
-        super();
         leftNode = left;
         rightNode = right;
         //do validation and set type.
@@ -81,7 +80,7 @@ public abstract class BinaryExprNode extends ParseTreeNode {
     }
     @Override
     public boolean ContainsVariable() {
-        return (leftNode.ContainsVariable()|rightNode.ContainsVariable());
+        return (leftNode.ContainsVariable()||rightNode.ContainsVariable());
     }
     @Override
     public abstract Tokens Token();

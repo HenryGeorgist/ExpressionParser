@@ -46,23 +46,23 @@ public class Scanner extends Observable {
     }
     private String BuildSingleQuotedString(){
         String s = "";
-            _c = GetCharacter();//get rid of the quote character
-            do{
-                s+=_c;//Character.toString(_c)
-                _c = GetCharacter();
-            }while(!"'".equals(Character.toString(_c)) & !_eof); //infinate loop, need to add the exit character in case the end quote is not supplied.
-            _c = GetCharacter(); //get rid of the end quote.
-            return s;
+        _c = GetCharacter();//get rid of the quote character
+        do{
+            s+=_c;//Character.toString(_c)
+            _c = GetCharacter();
+        }while(!"'".equals(Character.toString(_c)) & !_eof); //infinate loop, need to add the exit character in case the end quote is not supplied.
+        _c = GetCharacter(); //get rid of the end quote.
+        return s;
     }
-        private String BuildDoubleQuotedString(){
+    private String BuildDoubleQuotedString(){
         String s = "";
-            _c = GetCharacter();//get rid of the quote character
-            do{
-                s+=_c;//Character.toString(_c)
-                _c = GetCharacter();
-            }while(!"\"".equals(Character.toString(_c)) & !_eof); //infinate loop, need to add the exit character in case the end quote is not supplied.
-            _c = GetCharacter(); //get rid of the end quote.
-            return s;
+        _c = GetCharacter();//get rid of the quote character
+        do{
+            s+=_c;//Character.toString(_c)
+            _c = GetCharacter();
+        }while(!"\"".equals(Character.toString(_c)) & !_eof); //infinate loop, need to add the exit character in case the end quote is not supplied.
+        _c = GetCharacter(); //get rid of the end quote.
+        return s;
     }
     private NumberParseResult BuildNum(){
         String s="";
@@ -74,8 +74,7 @@ public class Scanner extends Observable {
                     isNumerical = false;
                 }else{
                     hasDecimal=true;
-                }
-                
+                }              
             }
             s+=_c;
             _c = GetCharacter();

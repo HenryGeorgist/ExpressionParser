@@ -12,7 +12,6 @@ package ParseTreeNodes.Numerics;
 public class NegationNode extends ParseTreeNodes.ParseTreeNode {
     private ParseTreeNodes.ParseTreeNode _d;
     public NegationNode(ParseTreeNodes.ParseTreeNode d){
-        super();
         _d = d;
         if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(_d.Type())){
           _Type = _d.Type();  
