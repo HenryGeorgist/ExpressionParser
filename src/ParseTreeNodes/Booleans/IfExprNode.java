@@ -37,31 +37,29 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
         }else{
             _Type = ThenStatement.Type();
             _Then = ThenStatement;
-        }
-
-        
+        }   
     }
     public void SetElse(ParseTreeNodes.ParseTreeNode ElseStatement){
-        //must be the same as the Then type
-        //what if then has not been set?
         if(ElseStatement == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The then statement in an if statment is not defined");
+            _Errors.add("The else statement in an if statment is not defined");
         }else{
-            if(_Then.Type()==ElseStatement.Type()){
-            _Else = ElseStatement;
+            if(_Then==null){
+                _Else = ElseStatement;
+                _Type = ElseStatement.Type();
+                _Errors.add("The then statment in an if statement is not defined.");             
             }else{
-                _Type = ParseTreeNodes.TypeEnum.ERR;
-                _Errors.add("The else statment and the then statment in an if statement do not produce the same output type.");
+                if(_Then.Type()==ElseStatement.Type()){
+                    _Else = ElseStatement;
+                }else{
+                    _Type = ParseTreeNodes.TypeEnum.ERR;
+                    _Errors.add("The else statment and the then statment in an if statement do not produce the same output type.");
+                }
             }
         }
-
-        //if types dont match, "The Then statement and the Else statement in an If Statement must produce the same output type"
     }
     @Override
-    public Tokens Token() {
-        return ParseTreeNodes.Tokens.IF;
-    }
+    public Tokens Token() {return ParseTreeNodes.Tokens.IF;}
     @Override
     public ParseTreeNodeResult Evaluate() {
         if(Boolean.parseBoolean(_Condition.Evaluate().Result().toString())){

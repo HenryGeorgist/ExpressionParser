@@ -18,26 +18,30 @@ public class RandExprNode extends ParseTreeNodes.ParseTreeNode{
     public RandExprNode(ParseTreeNodes.ParseTreeNode seed){
         if(seed == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
+            _Errors.add("The seed argument in the Rand expression was not defined.");
         }else if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(seed.Type())){
             _Seed = seed;
             _Rand = new java.util.Random(Long.parseLong(_Seed.Evaluate().Result().toString()));
             _Type = ParseTreeNodes.TypeEnum.DOUBLE;
+        }else{
+            _Type = ParseTreeNodes.TypeEnum.ERR;
+            _Errors.add("The seed argument in the Rand expression does not produce a whole number.");
         }
     }
     @Override
     public ParseTreeNodes.Tokens Token() {return ParseTreeNodes.Tokens.RAND;}
     @Override
-    public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
-        if(_Seed!=null){
-           if(_Seed.ContainsVariable()){
-                _Rand = new java.util.Random(Long.parseLong(_Seed.Evaluate().Result().toString()));
-            }
-        }
+    public ParseTreeNodes.ParseTreeNodeResult Evaluate(){
         return new ParseTreeNodes.ParseTreeNodeResult(_Rand.nextDouble(),ParseTreeNodes.TypeEnum.DOUBLE);
     }
     @Override
     public void Update(Object[] row) {
-        if(_Seed!=null){_Seed.Update(row);}
+        if(_Seed!=null){
+            if(_Seed.ContainsVariable()){
+                _Seed.Update(row);
+                _Rand = new java.util.Random(Long.parseLong(_Seed.Evaluate().Result().toString()));
+            }
+        }
     }
     @Override
     public String ToString() {
