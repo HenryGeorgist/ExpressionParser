@@ -4,9 +4,7 @@
  * and open the template in the editor.
  */
 package Scanner;
-
 import java.util.Observable;
-
 /**
  *
  * @author Will_and_Sara
@@ -213,6 +211,8 @@ public class Scanner extends Observable {
     }
     public ParseTreeNodes.Token Scan(){
         if(_eof){
+            this.setChanged();
+            this.notifyObservers("The Scan function was called after the end of the file. Some expression is likely incomplete.");
             return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR,"The Scanner was called after the end of the file, some expression must be incomplete.",_line,_pos);
         }
         if(_putback){
@@ -276,9 +276,13 @@ public class Scanner extends Observable {
                         if("]".equals(Character.toString(_c))){
                             return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.COLUMN,ColumnName.GetString(),_line,colpos);
                         }else{
-                        return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Encounterd [ followed by a string literal but no ]", _line, colpos);
-                    }
+                            this.setChanged();
+                            this.notifyObservers("Encountered [ followed by a string literal but no closing bracket ].");
+                            return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Encounterd [ followed by a string literal but no ]", _line, colpos);
+                        }
                     }else{
+                        this.setChanged();
+                        this.notifyObservers("Encountered [ followed by something that wasnt recognized as a string literal (specifcally a column name).");
                         return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Encounterd [ followed by something that wasnt recognized as a string literal", _line, colpos);
                     }
                 case "+":
@@ -302,6 +306,8 @@ public class Scanner extends Observable {
                 case ",":
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.COMMA,C,_line,_pos);
                 case ".":
+                    this.setChanged();
+                    this.notifyObservers("A period was found outside of a number or a quoted string at line " + _line + " and position " + _pos);
                     return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR,C + " was found outside of a number or a string",_line,_pos);
                 case "'":
                     //single quote, read until next single quote

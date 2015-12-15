@@ -17,7 +17,7 @@ public class NegationNode extends ParseTreeNodes.ParseTreeNode {
           _Type = _d.Type();  
         }else{
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("A minus sign was followed by something that does not produce a numerical output");
+            _SyntaxErrors.add("A minus sign was followed by something that does not produce a numerical output");
         }
         
     }

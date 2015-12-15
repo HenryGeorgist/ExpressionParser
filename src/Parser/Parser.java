@@ -165,7 +165,7 @@ public class Parser extends Observable implements Observer{
        return new ParseTreeNodes.Strings.ContainsExprNode(Parse(), Parse());
    }
    private ParseTreeNodes.ParseTreeNode FactorColumn(){
-       ParseTreeNodes.ParseTreeNode ret;
+       ParseTreeNodes.ParseTreeNode ret= null;
        for(int i = 0; i<_VariableNames.length;i++){
            if(_VariableNames[i].equals(_Tok.GetString())){
             ret = new ParseTreeNodes.Variables.Variable(_Tok.GetString(),_VariableTypes[i],i);
@@ -174,14 +174,18 @@ public class Parser extends Observable implements Observer{
             return ret;
            }
        }
-       return new ParseTreeNodes.Strings.StringNode("Column Name does not exist");
+       _Errors.add("Column Name " + _Tok.GetString() + " does not exist");
+       return ret;
    }
    private ParseTreeNodes.ParseTreeNode StringFactor(){
        ParseTreeNodes.ParseTreeNode righthandSide;
        switch(_Tok.GetToken()){
            case COLUMN:
                righthandSide = FactorColumn();
-               if(righthandSide.Type()!=ParseTreeNodes.TypeEnum.STRING){righthandSide = new ParseTreeNodes.Strings.StringNode("Column not a string");}
+               if(righthandSide.Type()!=ParseTreeNodes.TypeEnum.STRING){
+                   _Errors.add("A column was referenced in a larger string expression and the type of the column was not string.");
+                   righthandSide = null;
+               }
                break;
            case LEFT:
                Scan();
@@ -196,7 +200,8 @@ public class Parser extends Observable implements Observer{
            case IF:
                righthandSide = FactorIf();
                if(righthandSide.Type()!=ParseTreeNodes.TypeEnum.STRING){
-                   righthandSide = new ParseTreeNodes.Strings.StringNode("IfStatementDoesNotProduceString");
+                   _Errors.add("An if statement was found in a larger string expression, and the output type of the if was not a string.");
+                   righthandSide = null;
                }
                break;
            case SUBSTRING:
@@ -210,7 +215,8 @@ public class Parser extends Observable implements Observer{
 //         case CONVERTTOSTRING:
 //             lefthandSide = new ParseTreeNodes.Strings.ConcatenateExprNode(lefthandSide, ParseATreeNode(null)); 
            default:
-               righthandSide = new ParseTreeNodes.Strings.StringNode("ERROR");
+               _Errors.add("A string expression had the token " + _Tok.GetToken() + " and this token does not function in string expressions.");
+               righthandSide = null;
                Scan();
        }
        return righthandSide;

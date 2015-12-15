@@ -27,13 +27,10 @@ public class MultiplyExprNode extends ParseTreeNodes.BinaryExprNode{
     @Override
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
         //determine the type of the left and the right node. if they yeild NumLitInt, i can produce a numlitint
-        if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(Type()) ){
-            return new ParseTreeNodes.ParseTreeNodeResult(Integer.parseInt(leftNode.Evaluate().Result().toString()) * Integer.parseInt(rightNode.Evaluate().Result().toString()),ParseTreeNodes.TypeEnum.LONG);
-        }else if (ParseTreeNodes.TypeEnum.DECIMAL.contains(Type())){
-            return new ParseTreeNodes.ParseTreeNodeResult(Double.parseDouble(leftNode.Evaluate().Result().toString()) * Double.parseDouble(rightNode.Evaluate().Result().toString()),ParseTreeNodes.TypeEnum.DOUBLE);
+        if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(_Type) ){
+            return new ParseTreeNodes.ParseTreeNodeResult((int)leftNode.Evaluate().Result() * (int)rightNode.Evaluate().Result(),_Type);
         }else{
-            //neither whole or decimal... cannot output?
-           return new ParseTreeNodes.ParseTreeNodeResult(0,ParseTreeNodes.TypeEnum.ERR);
+            return new ParseTreeNodes.ParseTreeNodeResult((double)leftNode.Evaluate().Result() * (double)rightNode.Evaluate().Result(),_Type);
         }
     }    
 }

@@ -22,11 +22,11 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
     public void NormInvExprNode(ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
         if(mean == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The mean argument of the Normal Inverse CDF expression was not defined.");
+            _SyntaxErrors.add("The mean argument of the Normal Inverse CDF expression was not defined.");
         }else{
             if(stdev==null){
                 _Type = ParseTreeNodes.TypeEnum.ERR;
-                _Errors.add("The Standard Deviation argument of the Normal Inverse CDF expression was not defined.");
+                _SyntaxErrors.add("The Standard Deviation argument of the Normal Inverse CDF expression was not defined.");
             }else{
                 //ensure they are numerical arguments.
                 _Mean = mean;
@@ -36,7 +36,7 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
                     _Type = ParseTreeNodes.TypeEnum.DOUBLE;
                 }else{
                     _Type = ParseTreeNodes.TypeEnum.ERR;
-                    _Errors.add("The Mean and Standard Deviation arguments of the Normal Inverse CDF function were not both numerical.");
+                    _SyntaxErrors.add("The Mean and Standard Deviation arguments of the Normal Inverse CDF function were not both numerical.");
                 }    
             }
         }
@@ -46,7 +46,7 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
         _StDev = new ParseTreeNodes.Numerics.NumNode(1.0);
         if(seed == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The Seed of the standard normal inverse CDF function was not provided.");
+            _SyntaxErrors.add("The Seed of the standard normal inverse CDF function was not provided.");
         }else{
             if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(seed.Type())){
                 _isStandard = true;
@@ -56,7 +56,7 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
                 _Type = ParseTreeNodes.TypeEnum.DOUBLE;
             }else{
                 _Type = ParseTreeNodes.TypeEnum.ERR;
-                _Errors.add("The seed argument in the standard normal inverse CDF function did not produce a whole number.");
+                _SyntaxErrors.add("The seed argument in the standard normal inverse CDF function did not produce a whole number.");
             }
         }
     }

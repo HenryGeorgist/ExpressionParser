@@ -18,18 +18,18 @@ public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
     public ContainsExprNode(ParseTreeNodes.ParseTreeNode MainString, ParseTreeNodes.ParseTreeNode SearchString){
         if(MainString == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The Main string in the Contains Expression is not defined.");
+            _SyntaxErrors.add("The Main string in the Contains Expression is not defined.");
         }else{
             if(SearchString == null){
                 _Type = ParseTreeNodes.TypeEnum.ERR;
-                _Errors.add("The Search String in the Contains Expression is not defined.");
+                _SyntaxErrors.add("The Search String in the Contains Expression is not defined.");
             }else{
                 if(MainString.Type()==ParseTreeNodes.TypeEnum.STRING && SearchString.Type()==ParseTreeNodes.TypeEnum.STRING){
                     _MainString = MainString;
                     _SearchString = SearchString;
                     _Type = ParseTreeNodes.TypeEnum.BOOLEAN;
                 }else{
-                    _Errors.add("Cannot evaluate Contains unless both arguments are strings.");
+                    _SyntaxErrors.add("Cannot evaluate Contains unless both arguments are strings.");
                     _Type = ParseTreeNodes.TypeEnum.ERR;
                 }
             }

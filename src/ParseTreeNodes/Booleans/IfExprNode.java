@@ -19,12 +19,12 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
     public IfExprNode(ParseTreeNodes.ParseTreeNode Condition){
         //must produce a boolean
         if(Condition == null){
-            _Errors.add("The condition in an if statement is not defined");
+            _SyntaxErrors.add("The condition in an if statement is not defined");
         }else{
             if(Condition.Type()==ParseTreeNodes.TypeEnum.BOOLEAN){
                 _Condition = Condition;
             }else{
-                _Errors.add("The condition " + Condition.ToString() + " is used in an if statement, and does not produce a boolean.");
+                _SyntaxErrors.add("The condition " + Condition.ToString() + " is used in an if statement, and does not produce a boolean.");
                 _Type = ParseTreeNodes.TypeEnum.ERR;
             }
         }
@@ -33,7 +33,7 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
         //can be any type
         if(ThenStatement == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The then expression in an if statment is not defined");
+            _SyntaxErrors.add("The then expression in an if statment is not defined");
         }else{
             _Type = ThenStatement.Type();
             _Then = ThenStatement;
@@ -42,18 +42,18 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
     public void SetElse(ParseTreeNodes.ParseTreeNode ElseStatement){
         if(ElseStatement == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The else statement in an if statment is not defined");
+            _SyntaxErrors.add("The else statement in an if statment is not defined");
         }else{
             if(_Then==null){
                 _Else = ElseStatement;
                 _Type = ElseStatement.Type();
-                _Errors.add("The then statment in an if statement is not defined.");             
+                _SyntaxErrors.add("The then statment in an if statement is not defined.");             
             }else{
                 if(_Then.Type()==ElseStatement.Type()){
                     _Else = ElseStatement;
                 }else{
                     _Type = ParseTreeNodes.TypeEnum.ERR;
-                    _Errors.add("The else statment and the then statment in an if statement do not produce the same output type.");
+                    _SyntaxErrors.add("The else statment and the then statment in an if statement do not produce the same output type.");
                 }
             }
         }

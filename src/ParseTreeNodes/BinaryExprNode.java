@@ -20,10 +20,10 @@ public abstract class BinaryExprNode extends ParseTreeNode {
         //do validation and set type.
         if(leftNode==null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The left side of the operator " + OpName() + " is not defined.");
+            _SyntaxErrors.add("The left side of the operator " + OpName() + " is not defined.");
         }else if(rightNode==null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The right side of the operator " + OpName() + " is not defined.");
+            _SyntaxErrors.add("The right side of the operator " + OpName() + " is not defined.");
         }else{
             if(leftNode.Type() == rightNode.Type()){
                 //if the operator is boolean the output type will be boolean
@@ -47,7 +47,7 @@ public abstract class BinaryExprNode extends ParseTreeNode {
                 }else{
                     //not acceptable operation
                     _Type = ParseTreeNodes.TypeEnum.ERR;
-                    _Errors.add("Cannot " + OpString() + " " + leftNode.Type() + " and " + rightNode.Type() + ", operation: " + leftNode.ToString() + " " + OpName() + " " + rightNode.ToString() + " is invalid.");
+                    _SyntaxErrors.add("Cannot " + OpString() + " " + leftNode.Type() + " and " + rightNode.Type() + ", operation: " + leftNode.ToString() + " " + OpName() + " " + rightNode.ToString() + " is invalid.");
                 }
                 }
                 
@@ -64,7 +64,7 @@ public abstract class BinaryExprNode extends ParseTreeNode {
                 }else{
                     //not acceptable operation
                     _Type = ParseTreeNodes.TypeEnum.ERR;
-                    _Errors.add("Cannot " + OpString() + " " + leftNode.Type() + " and " + rightNode.Type() + ", operation: " + leftNode.ToString() + " " + OpName() + " " + rightNode.ToString() + " is invalid.");
+                    _SyntaxErrors.add("Cannot " + OpString() + " " + leftNode.Type() + " and " + rightNode.Type() + ", operation: " + leftNode.ToString() + " " + OpName() + " " + rightNode.ToString() + " is invalid.");
                 }
             }
         }

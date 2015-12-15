@@ -27,10 +27,13 @@ public class DivideExprNode extends ParseTreeNodes.BinaryExprNode{
     }
     @Override
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
-        if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(Type())){
-            return new ParseTreeNodes.ParseTreeNodeResult(Double.parseDouble(leftNode.Evaluate().Result().toString()) / Double.parseDouble(rightNode.Evaluate().Result().toString()),ParseTreeNodes.TypeEnum.DOUBLE);
+        double numerator =(double)leftNode.Evaluate().Result();
+        double denominator =(double)rightNode.Evaluate().Result();
+        if(denominator != 0){
+            return new ParseTreeNodes.ParseTreeNodeResult(numerator / denominator,_Type);
         }else{
-           return new ParseTreeNodes.ParseTreeNodeResult(0,ParseTreeNodes.TypeEnum.ERR); 
+            _ComputeErrors.add("Divide by zero Error on row (or cell) " + _RowOrCellNum);
+            return new ParseTreeNodes.ParseTreeNodeResult(Double.MAX_VALUE, _Type);///technically this is as close to infinity i can get...
         }
         
     }   

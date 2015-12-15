@@ -18,37 +18,37 @@ public class SubStringExprNode extends ParseTreeNodes.ParseTreeNode{
     private ParseTreeNodes.ParseTreeNode _NumChar;
     public SubStringExprNode(ParseTreeNodes.ParseTreeNode string, ParseTreeNodes.ParseTreeNode StartPos, ParseTreeNodes.ParseTreeNode NumCharacters){
         if(string == null){
-            _Errors.add("The string argument in the expression SubString was not defined");
+            _SyntaxErrors.add("The string argument in the expression SubString was not defined");
             _Type = ParseTreeNodes.TypeEnum.ERR;
         }else{
             if(string.Type() == ParseTreeNodes.TypeEnum.STRING){
                 _MainString = string;
                 if(StartPos == null){
-                    _Errors.add("The start posistion argument in the expression SubString was not defined");
+                    _SyntaxErrors.add("The start posistion argument in the expression SubString was not defined");
                     _Type = ParseTreeNodes.TypeEnum.ERR;
                 }else{
                     if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(StartPos.Type())){
                         _StartPos = StartPos;
                         if(NumCharacters == null){
-                            _Errors.add("The number of characters argument in the expression SubString was not defined");
+                            _SyntaxErrors.add("The number of characters argument in the expression SubString was not defined");
                             _Type = ParseTreeNodes.TypeEnum.ERR;
                         }else{
                             if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(NumCharacters.Type())){
                                 _NumChar = NumCharacters;
                                 _Type = ParseTreeNodes.TypeEnum.STRING; 
                             }else{
-                                _Errors.add("The number of characters argument in the expression SubString does not produce a whole number.");
+                                _SyntaxErrors.add("The number of characters argument in the expression SubString does not produce a whole number.");
                                 _Type = ParseTreeNodes.TypeEnum.ERR;
                             }     
                         }
                     }else{
-                        _Errors.add("The start position argument in the expression Substring does not produce a whole number.");
+                        _SyntaxErrors.add("The start position argument in the expression Substring does not produce a whole number.");
                         _Type = ParseTreeNodes.TypeEnum.ERR;
                         //what to do about numchar now??
                     }            
                 }
             }else{
-                _Errors.add("The string argument of the expression Substring does not produce a string result.");
+                _SyntaxErrors.add("The string argument of the expression Substring does not produce a string result.");
                 _Type = ParseTreeNodes.TypeEnum.ERR;
                 //what about the other two arguments?
             }

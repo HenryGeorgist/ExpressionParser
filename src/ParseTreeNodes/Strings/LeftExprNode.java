@@ -18,25 +18,25 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
     public LeftExprNode(ParseTreeNodes.ParseTreeNode string, ParseTreeNodes.ParseTreeNode NumCharacters){
         if(string==null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _Errors.add("The string argument of the Left function was not defined.");
+            _SyntaxErrors.add("The string argument of the Left function was not defined.");
         }else{
             if(string.Type() == ParseTreeNodes.TypeEnum.STRING){
             MainString = string;
                 if(NumCharacters==null){
                     _Type = ParseTreeNodes.TypeEnum.ERR;
-                    _Errors.add("The number of characters argument of the Left function was not defined.");
+                    _SyntaxErrors.add("The number of characters argument of the Left function was not defined.");
                 }else{
                     if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(NumCharacters.Type())){
                         NumChar = NumCharacters;
                         _Type = ParseTreeNodes.TypeEnum.STRING;
                     }else{
                         _Type = ParseTreeNodes.TypeEnum.ERR;
-                        _Errors.add("The number of characters argument of the Left function does not produce an integer result.");
+                        _SyntaxErrors.add("The number of characters argument of the Left function does not produce an integer result.");
                     }                
                 }
             }else{
                 _Type = ParseTreeNodes.TypeEnum.ERR;
-                _Errors.add("The string argument of the Left function does not produce a string as the output type.");
+                _SyntaxErrors.add("The string argument of the Left function does not produce a string as the output type.");
             }
         }
     }
