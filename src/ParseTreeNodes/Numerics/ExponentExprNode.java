@@ -28,6 +28,6 @@ public class ExponentExprNode extends ParseTreeNodes.BinaryExprNode{
     @Override
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
         //determine the type of the left and the right node. if they yeild NumLitInt, i can produce a numlitint
-        return new ParseTreeNodes.ParseTreeNodeResult(Math.pow((double)leftNode.Evaluate().Result(), (double)rightNode.Evaluate().Result()) ,_Type);
+        return new ParseTreeNodes.ParseTreeNodeResult(Math.pow(Double.parseDouble(leftNode.Evaluate().Result().toString()), Double.parseDouble(rightNode.Evaluate().Result().toString())) ,_Type);
     } 
 }

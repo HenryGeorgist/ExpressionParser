@@ -27,8 +27,8 @@ public class DivideExprNode extends ParseTreeNodes.BinaryExprNode{
     }
     @Override
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
-        double numerator =(double)leftNode.Evaluate().Result();
-        double denominator =(double)rightNode.Evaluate().Result();
+        double numerator =Double.parseDouble(leftNode.Evaluate().Result().toString());
+        double denominator =Double.parseDouble(rightNode.Evaluate().Result().toString());
         if(denominator != 0){
             return new ParseTreeNodes.ParseTreeNodeResult(numerator / denominator,_Type);
         }else{

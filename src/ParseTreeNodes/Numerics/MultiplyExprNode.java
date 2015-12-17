@@ -28,9 +28,9 @@ public class MultiplyExprNode extends ParseTreeNodes.BinaryExprNode{
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
         //determine the type of the left and the right node. if they yeild NumLitInt, i can produce a numlitint
         if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(_Type) ){
-            return new ParseTreeNodes.ParseTreeNodeResult((int)leftNode.Evaluate().Result() * (int)rightNode.Evaluate().Result(),_Type);
+            return new ParseTreeNodes.ParseTreeNodeResult(Integer.parseInt(leftNode.Evaluate().Result().toString()) * Integer.parseInt(rightNode.Evaluate().Result().toString()),_Type);
         }else{
-            return new ParseTreeNodes.ParseTreeNodeResult((double)leftNode.Evaluate().Result() * (double)rightNode.Evaluate().Result(),_Type);
+            return new ParseTreeNodes.ParseTreeNodeResult(Double.parseDouble(leftNode.Evaluate().Result().toString()) * Double.parseDouble(rightNode.Evaluate().Result().toString()),_Type);
         }
     }    
 }

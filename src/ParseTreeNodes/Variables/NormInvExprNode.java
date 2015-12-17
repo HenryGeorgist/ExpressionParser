@@ -15,8 +15,7 @@ import ParseTreeNodes.Tokens;
 public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
     private ParseTreeNodes.ParseTreeNode _Mean;
     private ParseTreeNodes.ParseTreeNode _StDev;
-    private ParseTreeNodes.ParseTreeNode _Seed;
-    private java.util.Random _Rand;
+    private ParseTreeNodes.ParseTreeNode _Rand;
     private boolean _isStandard = false;
     private boolean _hasSeed = false;
     public void NormInvExprNode(ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
@@ -31,7 +30,7 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
                 //ensure they are numerical arguments.
                 _Mean = mean;
                 _StDev = stdev;
-                _Rand = new java.util.Random();
+                _Rand = new ParseTreeNodes.Variables.RandExprNode();
                 if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(_Mean.Type()) && ParseTreeNodes.TypeEnum.NUMERICAL.contains(_StDev.Type())){
                     _Type = ParseTreeNodes.TypeEnum.DOUBLE;
                 }else{
@@ -41,39 +40,30 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
             }
         }
     }
-    public void NormInvExprNode(ParseTreeNodes.ParseTreeNode seed){
+    public void NormInvExprNode(ParseTreeNodes.ParseTreeNode rand){
         _Mean = new ParseTreeNodes.Numerics.NumNode(0.0);
         _StDev = new ParseTreeNodes.Numerics.NumNode(1.0);
-        if(seed == null){
+        if(rand == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
-            _SyntaxErrors.add("The Seed of the standard normal inverse CDF function was not provided.");
+            _SyntaxErrors.add("The random argument of the standard normal inverse CDF function was not provided.");
         }else{
-            if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(seed.Type())){
+            if(ParseTreeNodes.TypeEnum.DECIMAL.contains(rand.Type())){
                 _isStandard = true;
                 _hasSeed = true;
-                _Seed = seed;
-                _Rand = new java.util.Random((long)_Seed.Evaluate().Result());
+                _Rand = rand;
                 _Type = ParseTreeNodes.TypeEnum.DOUBLE;
             }else{
                 _Type = ParseTreeNodes.TypeEnum.ERR;
-                _SyntaxErrors.add("The seed argument in the standard normal inverse CDF function did not produce a whole number.");
+                _SyntaxErrors.add("The rand argument in the standard normal inverse CDF function did not produce a decimal number.");
             }
         }
     }
-    public void NormInvExprNode(){
-        _isStandard = true;
-        _Mean = new ParseTreeNodes.Numerics.NumNode(0.0);
-        _StDev = new ParseTreeNodes.Numerics.NumNode(1.0);
-        _Type = ParseTreeNodes.TypeEnum.DOUBLE;
-        _Rand = new java.util.Random();
-    }
-    public void NormInvExprNode(ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev, ParseTreeNodes.ParseTreeNode seed){
+    public void NormInvExprNode(ParseTreeNodes.ParseTreeNode rand, ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
         //check for null nodes and bad input types...
         _hasSeed = true;
         _Mean = mean;
         _StDev = stdev;
-        _Seed = seed;
-        _Rand = new java.util.Random((long)_Seed.Evaluate().Result());
+        _Rand = rand;
     }
     @Override
     public Tokens Token() {return ParseTreeNodes.Tokens.NORMINV;}
@@ -85,20 +75,20 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
     public void Update(Object[] row) {
         _Mean.Update(row);
         _StDev.Update(row);
-        if(_Seed != null){_Seed.Update(row);}
+        _Rand.Update(row);
     }
     @Override
     public String ToString() {
         //check for nulls.
         if(_isStandard){
             if(_hasSeed){
-                return "NormInv(" + _Seed.ToString() + ")";
+                return "NormInv(" + _Rand.ToString() + ")";
             }else{
                 return "NormInv()";
             }
         }else{
             if(_hasSeed){
-                return "NormInv(" + _Mean.ToString() + ", " + _StDev.ToString() + ", " + _Seed.ToString() + ")"; 
+                return "NormInv(" + _Rand.ToString() + ", " + _Mean.ToString() + ", " + _StDev.ToString() + ")"; 
             }else{
                 return "NormInv(" + _Mean.ToString() + ", " + _StDev.ToString() +")"; 
             }
