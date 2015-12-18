@@ -26,7 +26,9 @@ public class Scanner extends Observable {
         int result = 0;
         try {
             result = _sr.read(read,0,1);
-            if(result == -1){_eof = true;}
+            if(result == -1){
+                _putback = true;
+                _eof = true;}
         } catch (java.io.IOException ex) {
             return "\u0000".toCharArray()[0];//i dont think this is right
         }
@@ -213,7 +215,7 @@ public class Scanner extends Observable {
         if(_eof){
             this.setChanged();
             this.notifyObservers("The Scan function was called after the end of the file. Some expression is likely incomplete.");
-            return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR,"The Scanner was called after the end of the file, some expression must be incomplete.",_line,_pos);
+            return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EOF,"The Scanner was called after the end of the file, some expression must be incomplete.",_line,_pos);
         }
         if(_putback){
             _putback = false;

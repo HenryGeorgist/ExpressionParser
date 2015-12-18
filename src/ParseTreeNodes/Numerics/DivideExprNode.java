@@ -32,8 +32,8 @@ public class DivideExprNode extends ParseTreeNodes.BinaryExprNode{
         if(denominator != 0){
             return new ParseTreeNodes.ParseTreeNodeResult(numerator / denominator,_Type);
         }else{
-            _ComputeErrors.add("Divide by zero Error on row (or cell) " + _RowOrCellNum);
-            return new ParseTreeNodes.ParseTreeNodeResult(Double.MAX_VALUE, _Type);///technically this is as close to infinity i can get...
+            AddComputeError("Divide by zero Error on row (or cell) " + _RowOrCellNum);
+            return new ParseTreeNodes.ParseTreeNodeResult(0, _Type);///technically this is as close to infinity i can get...
         }
         
     }   

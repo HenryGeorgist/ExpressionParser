@@ -29,6 +29,8 @@ public class Parser extends Observable implements Observer{
    }
    public void SetTypes(ParseTreeNodes.TypeEnum[] types){_VariableTypes = types;}
    public void SetColumnNames(String[] ColumnNames){_VariableNames = ColumnNames;}
+   public ArrayList<String> GetErrors(){return _Errors;}
+   public boolean ContainsErrors(){return !_Errors.isEmpty();}
    private void Scan(){
        _Tok = _Scanner.Scan();
        this.setChanged();
@@ -122,8 +124,8 @@ public class Parser extends Observable implements Observer{
    private ParseTreeNodes.ParseTreeNode ParentheticalStatement(ParseTreeNodes.ParseTreeNode lefthandSide){
        //ParseTreeNodes.ParseTreeNode Ret = null;
        //Scan();
-       while(_Tok.GetToken()!= ParseTreeNodes.Tokens.RPAREN){
-           lefthandSide = ParseATreeNode(lefthandSide);//somehow i end up in an infinate do loop.
+       while(_Tok.GetToken()!= ParseTreeNodes.Tokens.RPAREN & _Tok.GetToken()!= ParseTreeNodes.Tokens.EOF & _Tok.GetToken()!=ParseTreeNodes.Tokens.ERR){
+           lefthandSide = ParseATreeNode(lefthandSide);
            //Scan();
        }
        Scan();

@@ -32,7 +32,7 @@ public class ParserTest {
     @Before
     public void setUp() {
         _P = new Parser();
-        ParseTreeNodes.ParseTreeNode.InitializeParseTreeNode();
+        //ParseTreeNodes.ParseTreeNode.InitializeParseTreeNode();
     }
     
     @After
@@ -46,7 +46,7 @@ public class ParserTest {
         System.out.println("Parse");
         assertEquals(true, _P.Parse("1+abcd").ContainsSyntaxErrors());
         assertEquals("Cannot Add LONG and STRING, operation: 1 + abcd is invalid.", _P.Parse("1+abcd").GetSyntaxErrors().get(0));
-        ParseTreeNodes.ParseTreeNode.ClearSyntaxErrors();
+        //ParseTreeNodes.ParseTreeNode.ClearSyntaxErrors();
         assertEquals(12, _P.Parse("(3 +3)* 2").Evaluate().Result());
         assertEquals(15, _P.Parse("3*(3 + 2)").Evaluate().Result());    
         assertEquals(9, _P.Parse("3+3*2").Evaluate().Result());
