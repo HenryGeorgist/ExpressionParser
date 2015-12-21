@@ -96,15 +96,15 @@ public class Scanner extends Observable {
             case "+":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;} 
-                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.PLUS, "+", _line, pos);
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.PLUS, "+", _line, pos, "www.google.com");
             case "-":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;} 
-                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.MINUS, "-", _line, pos);
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.MINUS, "-", _line, pos, "www.github.com");
             case "/":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;}
-                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.DIVIDE, "/", _line, pos);
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.DIVIDE, "/", _line, pos, "www.timcohn.com/TAC_Software/PeakfqSA/");
              case "*":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;}
