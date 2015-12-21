@@ -7,18 +7,20 @@ package ParseTreeNodes.Variables;
 
 import ParseTreeNodes.ParseTreeNodeResult;
 import ParseTreeNodes.Tokens;
+import java.util.ArrayList;
 
 /**
  *
  * @author Will_and_Sara
  */
 public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
-    private ParseTreeNodes.ParseTreeNode _Mean;
+    protected ParseTreeNodes.ParseTreeNode _Mean;
     private ParseTreeNodes.ParseTreeNode _StDev;
     private ParseTreeNodes.ParseTreeNode _Rand;
     private boolean _isStandard = false;
     private boolean _hasSeed = false;
-    public void NormInvExprNode(ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
+    public NormInvExprNode(ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
+        super();
         if(mean == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
             _SyntaxErrors.add("The mean argument of the Normal Inverse CDF expression was not defined.");
@@ -40,7 +42,8 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
             }
         }
     }
-    public void NormInvExprNode(ParseTreeNodes.ParseTreeNode rand){
+    public NormInvExprNode(ParseTreeNodes.ParseTreeNode rand){
+        super();
         _Mean = new ParseTreeNodes.Numerics.NumNode(0.0);
         _StDev = new ParseTreeNodes.Numerics.NumNode(1.0);
         if(rand == null){
@@ -58,8 +61,9 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
             }
         }
     }
-    public void NormInvExprNode(ParseTreeNodes.ParseTreeNode rand, ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
+    public NormInvExprNode(ParseTreeNodes.ParseTreeNode rand, ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
         //check for null nodes and bad input types...
+        super();
         _hasSeed = true;
         _Mean = mean;
         _StDev = stdev;
@@ -96,4 +100,22 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
     }
     @Override
     public boolean ContainsVariable() {return true;}
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_ComputeErrors);
+        Errors.addAll(_Rand.GetComputeErrors());
+        Errors.addAll(_Mean.GetComputeErrors());
+        Errors.addAll(_StDev.GetComputeErrors());
+        return Errors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_SyntaxErrors);
+        Errors.addAll(_Rand.GetSyntaxErrors());
+        Errors.addAll(_Mean.GetSyntaxErrors());
+        Errors.addAll(_StDev.GetSyntaxErrors());
+        return Errors;
+    }
 }

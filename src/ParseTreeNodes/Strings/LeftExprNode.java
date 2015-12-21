@@ -7,6 +7,7 @@ package ParseTreeNodes.Strings;
 
 import ParseTreeNodes.ParseTreeNodeResult;
 import ParseTreeNodes.Tokens;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,6 +17,7 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
     private ParseTreeNodes.ParseTreeNode MainString;
     private ParseTreeNodes.ParseTreeNode NumChar;
     public LeftExprNode(ParseTreeNodes.ParseTreeNode string, ParseTreeNodes.ParseTreeNode NumCharacters){
+        super();
         if(string==null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
             _SyntaxErrors.add("The string argument of the Left function was not defined.");
@@ -82,5 +84,21 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
         }else{
             return NumChar.ContainsVariable();
         }
-    } 
+    }
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_ComputeErrors);
+        Errors.addAll(MainString.GetComputeErrors());
+        Errors.addAll(NumChar.GetComputeErrors());
+        return Errors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_SyntaxErrors);
+        Errors.addAll(MainString.GetSyntaxErrors());
+        Errors.addAll(NumChar.GetSyntaxErrors());
+        return Errors;    
+    }
 }

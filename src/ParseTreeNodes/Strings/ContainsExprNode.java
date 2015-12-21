@@ -7,6 +7,7 @@ package ParseTreeNodes.Strings;
 
 import ParseTreeNodes.ParseTreeNodeResult;
 import ParseTreeNodes.Tokens;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,6 +17,7 @@ public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
     private ParseTreeNodes.ParseTreeNode _MainString;
     private ParseTreeNodes.ParseTreeNode _SearchString;
     public ContainsExprNode(ParseTreeNodes.ParseTreeNode MainString, ParseTreeNodes.ParseTreeNode SearchString){
+        super();
         if(MainString == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
             _SyntaxErrors.add("The Main string in the Contains Expression is not defined.");
@@ -66,5 +68,20 @@ public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
             return _SearchString.ContainsVariable();
         }
     }
-    
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_ComputeErrors);
+        Errors.addAll(_MainString.GetComputeErrors());
+        Errors.addAll(_SearchString.GetComputeErrors());
+        return Errors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_SyntaxErrors);
+        Errors.addAll(_MainString.GetSyntaxErrors());
+        Errors.addAll(_SearchString.GetSyntaxErrors());
+        return Errors;    
+    }
 }

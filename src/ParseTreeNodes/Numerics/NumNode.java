@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package ParseTreeNodes.Numerics;
+
+import java.util.ArrayList;
+
 /**
  *
  * @author Will_and_Sara
@@ -11,6 +14,7 @@ package ParseTreeNodes.Numerics;
 public class NumNode extends ParseTreeNodes.ParseTreeNode {
     private Double _d;
     public NumNode(Double d){
+        super();
         _d = d;
         _Type = ParseTreeNodes.TypeEnum.DOUBLE;
         
@@ -34,5 +38,13 @@ public class NumNode extends ParseTreeNodes.ParseTreeNode {
     @Override
     public boolean ContainsVariable() {
         return false;
+    }
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        return _ComputeErrors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        return _SyntaxErrors;
     }
 }

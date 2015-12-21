@@ -32,7 +32,6 @@ public class ParserTest {
     @Before
     public void setUp() {
         _P = new Parser();
-        //ParseTreeNodes.ParseTreeNode.InitializeParseTreeNode();
     }
     
     @After

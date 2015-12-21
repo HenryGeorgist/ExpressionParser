@@ -5,6 +5,8 @@
  */
 package ParseTreeNodes.Variables;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Will_and_Sara
@@ -13,9 +15,11 @@ public class RandExprNode extends ParseTreeNodes.ParseTreeNode{
     private ParseTreeNodes.ParseTreeNode _Seed;
     private java.util.Random _Rand;
     public RandExprNode(){
+        super();
         _Rand = new java.util.Random();
     }
     public RandExprNode(ParseTreeNodes.ParseTreeNode seed){
+        super();
         if(seed == null){
             _Type = ParseTreeNodes.TypeEnum.ERR;
             _SyntaxErrors.add("The seed argument in the Rand expression was not defined.");
@@ -53,4 +57,18 @@ public class RandExprNode extends ParseTreeNodes.ParseTreeNode{
     }
     @Override
     public boolean ContainsVariable() {return true;}
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_ComputeErrors);
+        Errors.addAll(_Seed.GetComputeErrors());
+        return Errors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_SyntaxErrors);
+        Errors.addAll(_Seed.GetSyntaxErrors());
+        return Errors;    
+    }
 }

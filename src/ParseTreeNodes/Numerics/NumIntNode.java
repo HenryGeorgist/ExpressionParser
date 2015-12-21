@@ -5,6 +5,8 @@
  */
 package ParseTreeNodes.Numerics;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Will_and_Sara
@@ -12,6 +14,7 @@ package ParseTreeNodes.Numerics;
 public class NumIntNode extends ParseTreeNodes.ParseTreeNode {
     private int _I;
     public NumIntNode(int I){
+        super();
         _I = I;
         _Type = ParseTreeNodes.TypeEnum.LONG;
     }
@@ -29,10 +32,18 @@ public class NumIntNode extends ParseTreeNodes.ParseTreeNode {
     }
     @Override
     public String ToString() {
-        return new Integer(_I).toString();
+        return Integer.toString(_I);
     }
     @Override
     public boolean ContainsVariable() {
         return false;
-    }  
+    }
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        return _ComputeErrors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        return _SyntaxErrors;
+    }
 }

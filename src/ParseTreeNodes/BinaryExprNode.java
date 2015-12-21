@@ -5,6 +5,8 @@
  */
 package ParseTreeNodes;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Will_and_Sara
@@ -15,6 +17,7 @@ public abstract class BinaryExprNode extends ParseTreeNode {
     public abstract String OpString();
     public abstract String OpName();
     public BinaryExprNode(ParseTreeNode left, ParseTreeNode right){
+        super();
         leftNode = left;
         rightNode = right;
         //do validation and set type.
@@ -76,7 +79,11 @@ public abstract class BinaryExprNode extends ParseTreeNode {
     }
     @Override
     public String ToString() {
-        return "(" + leftNode.ToString()+ " " + OpName() + " " + rightNode.ToString() + ")";
+        String ln = "";
+        String rn = "";
+        if(null!=leftNode){ln = leftNode.ToString();}
+        if(null!=rightNode){rn = rightNode.ToString();}
+        return "(" + ln + " " + OpName() + " " + rn + ")";
     }
     @Override
     public boolean ContainsVariable() {
@@ -86,4 +93,21 @@ public abstract class BinaryExprNode extends ParseTreeNode {
     public abstract Tokens Token();
     @Override
     public abstract ParseTreeNodeResult Evaluate();
+
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_ComputeErrors);
+        Errors.addAll(leftNode.GetComputeErrors());
+        Errors.addAll(rightNode.GetComputeErrors());
+        return Errors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_SyntaxErrors);
+        if(null!=leftNode){Errors.addAll(leftNode.GetSyntaxErrors());}
+        if(null!=rightNode){Errors.addAll(rightNode.GetSyntaxErrors());}
+        return Errors;
+    }
 }

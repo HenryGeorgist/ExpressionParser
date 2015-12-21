@@ -5,6 +5,8 @@
  */
 package ParseTreeNodes.Numerics;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Will_and_Sara
@@ -12,6 +14,7 @@ package ParseTreeNodes.Numerics;
 public class NegationNode extends ParseTreeNodes.ParseTreeNode {
     private ParseTreeNodes.ParseTreeNode _d;
     public NegationNode(ParseTreeNodes.ParseTreeNode d){
+        super();
         _d = d;
         if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(_d.Type())){
           _Type = _d.Type();  
@@ -27,15 +30,16 @@ public class NegationNode extends ParseTreeNodes.ParseTreeNode {
     }
     @Override
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
-        if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(_Type)){
-            return new ParseTreeNodes.ParseTreeNodeResult(-Integer.parseInt(_d.Evaluate().Result().toString()), _Type);
-        }else{
-            return new ParseTreeNodes.ParseTreeNodeResult(-Double.parseDouble(_d.Evaluate().Result().toString()), _Type);
-        }   
+        return new ParseTreeNodes.ParseTreeNodeResult(_d.Evaluate().Result(), _Type);
+//        if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(_Type)){
+//            return new ParseTreeNodes.ParseTreeNodeResult(-Integer.parseInt(_d.Evaluate().Result().toString()), _Type);
+//        }else{
+//            return new ParseTreeNodes.ParseTreeNodeResult(-Double.parseDouble(_d.Evaluate().Result().toString()), _Type);
+//        }   
     }
     @Override
     public void Update(Object[] row) {
-        //do nothing, this is not a variable
+        _d.Update(row);
     }
     @Override
     public String ToString() {
@@ -44,5 +48,19 @@ public class NegationNode extends ParseTreeNodes.ParseTreeNode {
     @Override
     public boolean ContainsVariable() {
         return false;
-    }   
+    }
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_ComputeErrors);
+        Errors.addAll(_d.GetComputeErrors());
+        return Errors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_SyntaxErrors);
+        Errors.addAll(_d.GetSyntaxErrors());
+        return Errors;    
+    }
 }

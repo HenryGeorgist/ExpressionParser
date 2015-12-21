@@ -7,6 +7,7 @@ package ParseTreeNodes.Variables;
 
 import ParseTreeNodes.ParseTreeNodeResult;
 import ParseTreeNodes.Tokens;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Variable extends ParseTreeNodes.ParseTreeNode{
     private int _ColumnIndex;
     private final String _ColumnName;
     public Variable(String ColumnName, ParseTreeNodes.TypeEnum Type, int ColumnIndex){
+        super();
         _ColumnName = ColumnName;
         _ColumnIndex = ColumnIndex;
         _Type = Type;
@@ -40,6 +42,14 @@ public class Variable extends ParseTreeNodes.ParseTreeNode{
     @Override
     public boolean ContainsVariable() {
         return true;
+    }
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        return _ComputeErrors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        return _SyntaxErrors;
     }
     
 }

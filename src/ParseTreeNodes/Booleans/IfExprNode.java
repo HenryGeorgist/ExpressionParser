@@ -7,6 +7,7 @@ package ParseTreeNodes.Booleans;
 
 import ParseTreeNodes.ParseTreeNodeResult;
 import ParseTreeNodes.Tokens;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +18,7 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
     private ParseTreeNodes.ParseTreeNode _Then;
     private ParseTreeNodes.ParseTreeNode _Else;
     public IfExprNode(ParseTreeNodes.ParseTreeNode Condition){
+        super();
         //must produce a boolean
         if(Condition == null){
             _SyntaxErrors.add("The condition in an if statement is not defined");
@@ -95,5 +97,23 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
         }else{
             return _Else.ContainsVariable();
         }
+    }
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_ComputeErrors);
+        Errors.addAll(_Condition.GetComputeErrors());
+        Errors.addAll(_Then.GetComputeErrors());
+        Errors.addAll(_Else.GetComputeErrors());
+        return Errors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_SyntaxErrors);
+        Errors.addAll(_Condition.GetSyntaxErrors());
+        Errors.addAll(_Then.GetSyntaxErrors());
+        Errors.addAll(_Else.GetSyntaxErrors());
+        return Errors;    
     }
 }

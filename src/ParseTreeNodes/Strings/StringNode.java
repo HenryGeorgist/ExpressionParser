@@ -5,6 +5,8 @@
  */
 package ParseTreeNodes.Strings;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Will_and_Sara
@@ -12,6 +14,7 @@ package ParseTreeNodes.Strings;
 public class StringNode  extends ParseTreeNodes.ParseTreeNode {
     private String _s;
     public StringNode(String s){
+        super();
         _s = s;
         _Type = ParseTreeNodes.TypeEnum.STRING;
     }
@@ -34,5 +37,15 @@ public class StringNode  extends ParseTreeNodes.ParseTreeNode {
     @Override
     public boolean ContainsVariable() {
         return false;
-    }  
+    }
+
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        return _ComputeErrors;
+    }
+
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        return _SyntaxErrors;
+    }
 }

@@ -7,6 +7,7 @@ package ParseTreeNodes.Strings;
 
 import ParseTreeNodes.ParseTreeNodeResult;
 import ParseTreeNodes.Tokens;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +18,7 @@ public class SubStringExprNode extends ParseTreeNodes.ParseTreeNode{
     private ParseTreeNodes.ParseTreeNode _StartPos;
     private ParseTreeNodes.ParseTreeNode _NumChar;
     public SubStringExprNode(ParseTreeNodes.ParseTreeNode string, ParseTreeNodes.ParseTreeNode StartPos, ParseTreeNodes.ParseTreeNode NumCharacters){
+        super();
         if(string == null){
             _SyntaxErrors.add("The string argument in the expression SubString was not defined");
             _Type = ParseTreeNodes.TypeEnum.ERR;
@@ -105,5 +107,23 @@ public class SubStringExprNode extends ParseTreeNodes.ParseTreeNode{
         }else{
             return _NumChar.ContainsVariable();
         }
+    }
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_ComputeErrors);
+        Errors.addAll(_MainString.GetComputeErrors());
+        Errors.addAll(_StartPos.GetComputeErrors());
+        Errors.addAll(_NumChar.GetComputeErrors());
+        return Errors;
+    }
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        ArrayList<String> Errors = new ArrayList<>();
+        Errors.addAll(_SyntaxErrors);
+        Errors.addAll(_MainString.GetSyntaxErrors());
+        Errors.addAll(_StartPos.GetSyntaxErrors());
+        Errors.addAll(_NumChar.GetSyntaxErrors());
+        return Errors;    
     }
 }

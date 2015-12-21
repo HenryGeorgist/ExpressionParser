@@ -213,8 +213,8 @@ public class Scanner extends Observable {
     }
     public ParseTreeNodes.Token Scan(){
         if(_eof){
-            this.setChanged();
-            this.notifyObservers("The Scan function was called after the end of the file. Some expression is likely incomplete.");
+            //this.setChanged();
+            //this.notifyObservers("The Scan function was called after the end of the file. Some expression is likely incomplete.");
             return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.EOF,"The Scanner was called after the end of the file, some expression must be incomplete.",_line,_pos);
         }
         if(_putback){

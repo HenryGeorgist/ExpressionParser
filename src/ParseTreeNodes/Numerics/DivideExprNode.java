@@ -12,6 +12,7 @@ package ParseTreeNodes.Numerics;
 public class DivideExprNode extends ParseTreeNodes.BinaryExprNode{
     public DivideExprNode(ParseTreeNodes.ParseTreeNode left, ParseTreeNodes.ParseTreeNode right) {
         super(left, right);
+        _Type = ParseTreeNodes.TypeEnum.DOUBLE;
     }
     @Override
     public String OpString() {
@@ -27,12 +28,12 @@ public class DivideExprNode extends ParseTreeNodes.BinaryExprNode{
     }
     @Override
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
-        double numerator =Double.parseDouble(leftNode.Evaluate().Result().toString());
-        double denominator =Double.parseDouble(rightNode.Evaluate().Result().toString());
+        double numerator = Double.parseDouble(leftNode.Evaluate().Result().toString());
+        double denominator = Double.parseDouble(rightNode.Evaluate().Result().toString());
         if(denominator != 0){
             return new ParseTreeNodes.ParseTreeNodeResult(numerator / denominator,_Type);
         }else{
-            AddComputeError("Divide by zero Error on row (or cell) " + _RowOrCellNum);
+            _ComputeErrors.add("Divide by zero Error on row (or cell) " + _RowOrCellNum);
             return new ParseTreeNodes.ParseTreeNodeResult(0, _Type);///technically this is as close to infinity i can get...
         }
         

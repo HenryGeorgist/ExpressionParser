@@ -76,8 +76,12 @@ public class Parser extends Observable implements Observer{
                ret = ParentheticalStatement(ret);
                //Scan();
                return ret;
+           case EOF:
+               return null;
            default:
-           return new ParseTreeNodes.Strings.StringNode(_Tok.GetString());//need to create an error node
+               ret = new ParseTreeNodes.Strings.StringNode(_Tok.GetString());
+               Scan();
+               return ret;//need to create an error node
        }
 
    }

@@ -5,6 +5,8 @@
  */
 package ParseTreeNodes.Booleans;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Will_and_Sara
@@ -34,5 +36,15 @@ public class BooleanNode extends ParseTreeNodes.ParseTreeNode {
     @Override
     public boolean ContainsVariable() {
         return false;
+    }
+
+    @Override
+    public ArrayList<String> GetComputeErrors() {
+        return _ComputeErrors;
+    }
+
+    @Override
+    public ArrayList<String> GetSyntaxErrors() {
+        return _SyntaxErrors;
     }
 }
