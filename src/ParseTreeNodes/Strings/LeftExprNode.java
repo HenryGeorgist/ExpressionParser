@@ -14,8 +14,8 @@ import java.util.ArrayList;
  * @author Will_and_Sara
  */
 public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
-    private ParseTreeNodes.ParseTreeNode MainString;
-    private ParseTreeNodes.ParseTreeNode NumChar;
+    private ParseTreeNodes.ParseTreeNode _MainString;
+    private ParseTreeNodes.ParseTreeNode _NumChar;
     public LeftExprNode(ParseTreeNodes.ParseTreeNode string, ParseTreeNodes.ParseTreeNode NumCharacters){
         super();
         if(string==null){
@@ -23,13 +23,13 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
             _SyntaxErrors.add("The string argument of the Left function was not defined.");
         }else{
             if(string.Type() == ParseTreeNodes.TypeEnum.STRING){
-            MainString = string;
+            _MainString = string;
                 if(NumCharacters==null){
                     _Type = ParseTreeNodes.TypeEnum.ERR;
                     _SyntaxErrors.add("The number of characters argument of the Left function was not defined.");
                 }else{
                     if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(NumCharacters.Type())){
-                        NumChar = NumCharacters;
+                        _NumChar = NumCharacters;
                         _Type = ParseTreeNodes.TypeEnum.STRING;
                     }else{
                         _Type = ParseTreeNodes.TypeEnum.ERR;
@@ -48,8 +48,8 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
     }
     @Override
     public ParseTreeNodeResult Evaluate() {
-        String s = MainString.Evaluate().Result().toString();
-        int n = Integer.parseInt(NumChar.Evaluate().Result().toString());
+        String s = _MainString.Evaluate().Result().toString();
+        int n = Integer.parseInt(_NumChar.Evaluate().Result().toString());
         if (s.length()<n){
             return new ParseTreeNodes.ParseTreeNodeResult(s,_Type);
         }else{
@@ -58,47 +58,47 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
     }
     @Override
     public void Update(Object[] row) {
-        MainString.Update(row);
-        NumChar.Update(row);
+        _MainString.Update(row);
+        _NumChar.Update(row);
     }
     @Override
     public String ToString() {
         String ms;
-        if(MainString == null){
+        if(_MainString == null){
             ms = "";
         }else{
-            ms = MainString.ToString();
+            ms = _MainString.ToString();
         }
         String nc;
-        if(NumChar == null){
+        if(_NumChar == null){
             nc = "";
         }else{
-            nc = NumChar.ToString();
+            nc = _NumChar.ToString();
         }
         return "Left(" + ms + ", " + nc + ")";
     }
     @Override
     public boolean ContainsVariable() {
-        if(MainString.ContainsVariable()){
+        if(_MainString.ContainsVariable()){
             return true;
         }else{
-            return NumChar.ContainsVariable();
+            return _NumChar.ContainsVariable();
         }
     }
     @Override
     public ArrayList<String> GetComputeErrors() {
         ArrayList<String> Errors = new ArrayList<>();
         Errors.addAll(_ComputeErrors);
-        Errors.addAll(MainString.GetComputeErrors());
-        Errors.addAll(NumChar.GetComputeErrors());
+        Errors.addAll(_MainString.GetComputeErrors());
+        Errors.addAll(_NumChar.GetComputeErrors());
         return Errors;
     }
     @Override
     public ArrayList<String> GetSyntaxErrors() {
         ArrayList<String> Errors = new ArrayList<>();
         Errors.addAll(_SyntaxErrors);
-        Errors.addAll(MainString.GetSyntaxErrors());
-        Errors.addAll(NumChar.GetSyntaxErrors());
+        if(null!=_MainString){Errors.addAll(_MainString.GetSyntaxErrors());}
+        if(null!=_NumChar){Errors.addAll(_NumChar.GetSyntaxErrors());}
         return Errors;    
     }
 }

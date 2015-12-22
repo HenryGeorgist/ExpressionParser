@@ -80,8 +80,8 @@ public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
     public ArrayList<String> GetSyntaxErrors() {
         ArrayList<String> Errors = new ArrayList<>();
         Errors.addAll(_SyntaxErrors);
-        Errors.addAll(_MainString.GetSyntaxErrors());
-        Errors.addAll(_SearchString.GetSyntaxErrors());
+        if(null!=_MainString){Errors.addAll(_MainString.GetSyntaxErrors());}
+        if(null!=_SearchString){Errors.addAll(_SearchString.GetSyntaxErrors());}
         return Errors;    
     }
 }

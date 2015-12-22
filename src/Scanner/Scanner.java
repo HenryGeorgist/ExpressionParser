@@ -96,7 +96,7 @@ public class Scanner extends Observable {
             case "+":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;} 
-                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.PLUS, "+", _line, pos, "www.google.com");
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.PLUS, "+", _line, pos, "C:/Users/Q0HECWPL/Perforce/HEC/DotNet/FieldCalculationParser/FieldCalculationParser/Resources/Plus.html");
             case "-":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;} 

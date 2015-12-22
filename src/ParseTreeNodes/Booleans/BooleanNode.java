@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class BooleanNode extends ParseTreeNodes.ParseTreeNode {
     private String _s;
     public BooleanNode(String s){
+        super();
         _s = s;//must be true True false or False unless i set the environment variables to be different
         _Type = ParseTreeNodes.TypeEnum.BOOLEAN;
     }
@@ -37,12 +38,10 @@ public class BooleanNode extends ParseTreeNodes.ParseTreeNode {
     public boolean ContainsVariable() {
         return false;
     }
-
     @Override
     public ArrayList<String> GetComputeErrors() {
         return _ComputeErrors;
     }
-
     @Override
     public ArrayList<String> GetSyntaxErrors() {
         return _SyntaxErrors;

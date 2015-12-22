@@ -121,9 +121,9 @@ public class SubStringExprNode extends ParseTreeNodes.ParseTreeNode{
     public ArrayList<String> GetSyntaxErrors() {
         ArrayList<String> Errors = new ArrayList<>();
         Errors.addAll(_SyntaxErrors);
-        Errors.addAll(_MainString.GetSyntaxErrors());
-        Errors.addAll(_StartPos.GetSyntaxErrors());
-        Errors.addAll(_NumChar.GetSyntaxErrors());
+        if(null!=_MainString){Errors.addAll(_MainString.GetSyntaxErrors());}
+        if(null!=_StartPos){Errors.addAll(_StartPos.GetSyntaxErrors());}
+        if(null!=_NumChar){Errors.addAll(_NumChar.GetSyntaxErrors());}
         return Errors;    
     }
 }

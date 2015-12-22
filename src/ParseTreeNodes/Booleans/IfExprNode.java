@@ -111,9 +111,9 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
     public ArrayList<String> GetSyntaxErrors() {
         ArrayList<String> Errors = new ArrayList<>();
         Errors.addAll(_SyntaxErrors);
-        Errors.addAll(_Condition.GetSyntaxErrors());
-        Errors.addAll(_Then.GetSyntaxErrors());
-        Errors.addAll(_Else.GetSyntaxErrors());
+        if(null!=_Condition){Errors.addAll(_Condition.GetSyntaxErrors());}
+        if(null!=_Then){Errors.addAll(_Then.GetSyntaxErrors());}
+        if(null!=_Else){Errors.addAll(_Else.GetSyntaxErrors());}
         return Errors;    
     }
 }
