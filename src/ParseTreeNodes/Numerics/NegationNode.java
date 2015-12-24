@@ -30,12 +30,12 @@ public class NegationNode extends ParseTreeNodes.ParseTreeNode {
     }
     @Override
     public ParseTreeNodes.ParseTreeNodeResult Evaluate() {
-        return new ParseTreeNodes.ParseTreeNodeResult(_d.Evaluate().Result(), _Type);
-//        if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(_Type)){
-//            return new ParseTreeNodes.ParseTreeNodeResult(-Integer.parseInt(_d.Evaluate().Result().toString()), _Type);
-//        }else{
-//            return new ParseTreeNodes.ParseTreeNodeResult(-Double.parseDouble(_d.Evaluate().Result().toString()), _Type);
-//        }   
+        //return new ParseTreeNodes.ParseTreeNodeResult(-Double.parseDouble(_d.Evaluate().Result().toString()), _Type);
+        if(ParseTreeNodes.TypeEnum.WHOLENUMBER.contains(_Type)){
+            return new ParseTreeNodes.ParseTreeNodeResult(-Integer.parseInt(_d.Evaluate().Result().toString()), _Type);
+        }else{
+            return new ParseTreeNodes.ParseTreeNodeResult(-Double.parseDouble(_d.Evaluate().Result().toString()), _Type);
+        }   
     }
     @Override
     public void Update(Object[] row) {
@@ -43,7 +43,7 @@ public class NegationNode extends ParseTreeNodes.ParseTreeNode {
     }
     @Override
     public String ToString() {
-        return "-" + _d.ToString();
+        return "(-" + _d.ToString() + ")";
     }
     @Override
     public boolean ContainsVariable() {

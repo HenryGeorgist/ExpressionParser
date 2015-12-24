@@ -12,6 +12,8 @@ package ParseTreeNodes.Numerics;
 public class ExponentExprNode extends ParseTreeNodes.BinaryExprNode{
     public ExponentExprNode(ParseTreeNodes.ParseTreeNode left, ParseTreeNodes.ParseTreeNode right) {
         super(left, right);
+        //left.SetType(ParseTreeNodes.TypeEnum.DOUBLE);
+        //right.SetType(ParseTreeNodes.TypeEnum.DOUBLE);
     }
     @Override
     public String OpString() {

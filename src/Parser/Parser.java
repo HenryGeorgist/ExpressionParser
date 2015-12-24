@@ -114,7 +114,7 @@ public class Parser extends Observable implements Observer{
            if(_Tok.GetToken()==ParseTreeNodes.Tokens.MINUS){
                Scan();
                if(lefthandSide==null){
-                   lefthandSide = new ParseTreeNodes.Numerics.NegationNode(NumFactor());
+                   lefthandSide = new ParseTreeNodes.Numerics.NegationNode(NumTerm());
                }else{
                   lefthandSide = new ParseTreeNodes.Numerics.MinusExprNode(lefthandSide, NumTerm()); 
                }

@@ -33,6 +33,8 @@ public abstract class BinaryExprNode extends ParseTreeNode {
                 if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(leftNode.Type())){
                     if(ParseTreeNodes.Tokens.BOOLEANOPERATOR.contains(Token())){
                         _Type = ParseTreeNodes.TypeEnum.BOOLEAN;
+                    }else if(Token()==ParseTreeNodes.Tokens.EXPONENT){
+                        _Type = ParseTreeNodes.TypeEnum.DOUBLE;
                     }else{
                         _Type = leftNode.Type();
                     }
