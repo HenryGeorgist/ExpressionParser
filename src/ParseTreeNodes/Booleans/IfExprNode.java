@@ -13,10 +13,13 @@ import java.util.ArrayList;
  *
  * @author Will_and_Sara
  */
-public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
+public class IfExprNode extends ParseTreeNodes.ParseTreeNode implements ParseTreeNodes.IDisplayToTreeNode {
     private ParseTreeNodes.ParseTreeNode _Condition;
     private ParseTreeNodes.ParseTreeNode _Then;
     private ParseTreeNodes.ParseTreeNode _Else;
+    public IfExprNode(){
+        //for reflection
+    }
     public IfExprNode(ParseTreeNodes.ParseTreeNode Condition){
         super();
         //must produce a boolean
@@ -116,4 +119,10 @@ public class IfExprNode extends ParseTreeNodes.ParseTreeNode {
         if(null!=_Else){Errors.addAll(_Else.GetSyntaxErrors());}
         return Errors;    
     }
+    @Override
+    public String DisplayName() {return "IF";}
+    @Override
+    public String HelpFilePath() {return "www.google.com";}
+    @Override
+    public String Syntax() {return "if(,,)";}
 }
