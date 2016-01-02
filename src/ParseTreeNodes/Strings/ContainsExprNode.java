@@ -13,9 +13,12 @@ import java.util.ArrayList;
  *
  * @author Will_and_Sara
  */
-public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
+public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode implements ParseTreeNodes.IDisplayToTreeNode{
     private ParseTreeNodes.ParseTreeNode _MainString;
     private ParseTreeNodes.ParseTreeNode _SearchString;
+    public ContainsExprNode(){
+        //for reflection.
+    }
     public ContainsExprNode(ParseTreeNodes.ParseTreeNode MainString, ParseTreeNodes.ParseTreeNode SearchString){
         super();
         if(MainString == null){
@@ -84,4 +87,11 @@ public class ContainsExprNode extends ParseTreeNodes.ParseTreeNode{
         if(null!=_SearchString){Errors.addAll(_SearchString.GetSyntaxErrors());}
         return Errors;    
     }
+
+    @Override
+    public String DisplayName() {return "Contains";}
+    @Override
+    public String HelpFilePath() {return "www.okstate.edu";}
+    @Override
+    public String Syntax() {return "Contains(,)";}
 }

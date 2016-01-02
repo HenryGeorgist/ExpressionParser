@@ -9,7 +9,10 @@ package ParseTreeNodes.Booleans;
  *
  * @author Will_and_Sara
  */
-public class OrExprNode extends ParseTreeNodes.BinaryExprNode{
+public class OrExprNode extends ParseTreeNodes.BinaryExprNode implements ParseTreeNodes.IDisplayToTreeNode{
+    public OrExprNode(){
+        super(null,null);//for reflection.
+    }
     public OrExprNode(ParseTreeNodes.ParseTreeNode left, ParseTreeNodes.ParseTreeNode right) {
         super(left, right);
     }
@@ -37,4 +40,10 @@ public class OrExprNode extends ParseTreeNodes.BinaryExprNode{
             return new ParseTreeNodes.ParseTreeNodeResult(rightNode.Evaluate().Result(),ParseTreeNodes.TypeEnum.BOOLEAN);
         }
     }   
+    @Override
+    public String DisplayName() {return "Or";}
+    @Override
+    public String HelpFilePath() {return "www.usaa.com";}
+    @Override
+    public String Syntax() {return "Or(,)";}
 }

@@ -9,7 +9,10 @@ package ParseTreeNodes.Booleans;
  *
  * @author Will_and_Sara
  */
-public class AndExprNode extends ParseTreeNodes.BinaryExprNode{
+public class AndExprNode extends ParseTreeNodes.BinaryExprNode implements ParseTreeNodes.IDisplayToTreeNode{
+    public AndExprNode(){
+        super(null,null);
+    }
     public AndExprNode(ParseTreeNodes.ParseTreeNode left, ParseTreeNodes.ParseTreeNode right) {
         super(left, right);
     }
@@ -39,4 +42,10 @@ public class AndExprNode extends ParseTreeNodes.BinaryExprNode{
            return new ParseTreeNodes.ParseTreeNodeResult(false,ParseTreeNodes.TypeEnum.ERR);
         }
     }
+    @Override
+    public String DisplayName() {return "AND";}
+    @Override
+    public String HelpFilePath() {return "www.gmail.com";}
+    @Override
+    public String Syntax() {return "And(,)";}
 }

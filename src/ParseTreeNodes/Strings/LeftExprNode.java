@@ -13,9 +13,12 @@ import java.util.ArrayList;
  *
  * @author Will_and_Sara
  */
-public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
+public class LeftExprNode extends ParseTreeNodes.ParseTreeNode implements ParseTreeNodes.IDisplayToTreeNode{
     private ParseTreeNodes.ParseTreeNode _MainString;
     private ParseTreeNodes.ParseTreeNode _NumChar;
+    public LeftExprNode(){
+        //for reflection
+    }
     public LeftExprNode(ParseTreeNodes.ParseTreeNode string, ParseTreeNodes.ParseTreeNode NumCharacters){
         super();
         if(string==null){
@@ -101,4 +104,10 @@ public class LeftExprNode extends ParseTreeNodes.ParseTreeNode{
         if(null!=_NumChar){Errors.addAll(_NumChar.GetSyntaxErrors());}
         return Errors;    
     }
+    @Override
+    public String DisplayName() {return "Left";}
+    @Override
+    public String HelpFilePath() {return "www.youtube.com";}
+    @Override
+    public String Syntax() {return "Left(,)";}
 }

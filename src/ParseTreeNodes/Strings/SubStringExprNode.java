@@ -13,10 +13,13 @@ import java.util.ArrayList;
  *
  * @author Will_and_Sara
  */
-public class SubStringExprNode extends ParseTreeNodes.ParseTreeNode{
+public class SubStringExprNode extends ParseTreeNodes.ParseTreeNode implements ParseTreeNodes.IDisplayToTreeNode{
     private ParseTreeNodes.ParseTreeNode _MainString;
     private ParseTreeNodes.ParseTreeNode _StartPos;
     private ParseTreeNodes.ParseTreeNode _NumChar;
+    public SubStringExprNode(){
+        //for reflection
+    }
     public SubStringExprNode(ParseTreeNodes.ParseTreeNode string, ParseTreeNodes.ParseTreeNode StartPos, ParseTreeNodes.ParseTreeNode NumCharacters){
         super();
         if(string == null){
@@ -126,4 +129,10 @@ public class SubStringExprNode extends ParseTreeNodes.ParseTreeNode{
         if(null!=_NumChar){Errors.addAll(_NumChar.GetSyntaxErrors());}
         return Errors;    
     }
+    @Override
+    public String DisplayName() {return "SubString";}
+    @Override
+    public String HelpFilePath() {return "www.java.com";}
+    @Override
+    public String Syntax() {return "SubString(,,)";}
 }

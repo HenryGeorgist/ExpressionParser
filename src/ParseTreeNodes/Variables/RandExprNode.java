@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Will_and_Sara
  */
-public class RandExprNode extends ParseTreeNodes.ParseTreeNode{
+public class RandExprNode extends ParseTreeNodes.ParseTreeNode implements ParseTreeNodes.IDisplayToTreeNode{
     private ParseTreeNodes.ParseTreeNode _Seed;
     private java.util.Random _Rand;
     public RandExprNode(){
@@ -71,4 +71,10 @@ public class RandExprNode extends ParseTreeNodes.ParseTreeNode{
         Errors.addAll(_Seed.GetSyntaxErrors());
         return Errors;    
     }
+    @Override
+    public String DisplayName() {return "Rand";}
+    @Override
+    public String HelpFilePath() {return "www.github.com";}
+    @Override
+    public String Syntax() {return "Rand(,)";}
 }

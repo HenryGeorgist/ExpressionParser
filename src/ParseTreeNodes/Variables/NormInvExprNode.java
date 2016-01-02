@@ -13,12 +13,15 @@ import java.util.ArrayList;
  *
  * @author Will_and_Sara
  */
-public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
+public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode implements ParseTreeNodes.IDisplayToTreeNode{
     protected ParseTreeNodes.ParseTreeNode _Mean;
     private ParseTreeNodes.ParseTreeNode _StDev;
     private ParseTreeNodes.ParseTreeNode _Rand;
     private boolean _isStandard = false;
     private boolean _hasSeed = false;
+    public NormInvExprNode(){
+        //for reflection
+    }
     public NormInvExprNode(ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
         super();
         if(mean == null){
@@ -118,4 +121,10 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode{
         Errors.addAll(_StDev.GetSyntaxErrors());
         return Errors;
     }
+    @Override
+    public String DisplayName() {return "NormInv";}
+    @Override
+    public String HelpFilePath() {return "www.netflix.com";}
+    @Override
+    public String Syntax() {return "NormInv(,,)";}
 }
