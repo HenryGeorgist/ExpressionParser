@@ -42,12 +42,12 @@ public abstract class BinaryExprNode extends ParseTreeNode {
                 }else if(ParseTreeNodes.TypeEnum.BOOLEAN == leftNode.Type()){ 
                 _Type = ParseTreeNodes.TypeEnum.BOOLEAN;
                 }else{
-                //both sides not numerical must be strings
+                //both sides not numerical must be strings 
                 //only allow &
-                if (OpName()=="&"){
+                if ("&".equals(OpName())){
                     //concatenation, equals, or not equals
                     _Type = ParseTreeNodes.TypeEnum.STRING;
-                }else if(OpName()=="=" || OpName()=="!="){
+                }else if("=".equals(OpName()) || "!=".equals(OpName())){
                     _Type = ParseTreeNodes.TypeEnum.BOOLEAN;
                 }else{
                     //not acceptable operation
@@ -61,11 +61,13 @@ public abstract class BinaryExprNode extends ParseTreeNode {
                 _Type = ParseTreeNodes.TypeEnum.DOUBLE;
                 
             }else{
-                //one side is not numerical must be strings
+                //one side is not numerical must be strings (or one side is an error.)
                 //only allow and &
-                if (OpName()=="&"){
+                if (OpName().equals("&")){
                     //concatenation
                     _Type = ParseTreeNodes.TypeEnum.STRING;
+                }else if(leftNode.Type()!=ParseTreeNodes.TypeEnum.ERR & rightNode.Type()==ParseTreeNodes.TypeEnum.ERR){
+                    _Type = ParseTreeNodes.TypeEnum.ERR;   
                 }else{
                     //not acceptable operation
                     _Type = ParseTreeNodes.TypeEnum.ERR;

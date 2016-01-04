@@ -34,7 +34,6 @@ public abstract class ParseTreeNode{
     public void SetType(ParseTreeNodes.TypeEnum NewType){_Type = NewType;}
     public boolean ContainsSyntaxErrors(){
         ArrayList<String> test = GetSyntaxErrors();
-        
         return !test.isEmpty();}
     public boolean ContainsComputeErrors(){
         return !GetComputeErrors().isEmpty();}
