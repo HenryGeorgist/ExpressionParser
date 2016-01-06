@@ -3,43 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/LeftExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/RightExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/ExponentExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Variables/RandExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/ContainsExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/NotEqualsExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/OrExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/NegationNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/ConcatenateExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/DivideExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/TypeEnum.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Variables/NormInvExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/test/Parser/ParserTest.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/GreaterThanExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/IfExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/MultiplyExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/MinusExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/EqualsExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/NumIntNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Tokens.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/NumNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/LessThanOrEqualExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/PlusExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/SubStringExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/Scanner/Scanner.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/BooleanNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/GreaterThanOrEqualExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Variables/Variable.java</file>
             <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/Parser/Parser.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/ParseTreeNodeResult.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/ParseTreeNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Strings/StringNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/LessThanExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Token.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/BinaryExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Variables/RandIntExprNode.java</file>
-            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Booleans/AndExprNode.java</file>
+            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/test/Parser/ParserTest.java</file>
+            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/Scanner/Scanner.java</file>
+            <file>file:/Users/Will_and_Sara/NetBeansProjects/ExpressionParser/src/ParseTreeNodes/Numerics/DivideExprNode.java</file>
         </group>
     </open-files>
 </project-private>

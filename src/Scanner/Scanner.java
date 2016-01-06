@@ -100,11 +100,11 @@ public class Scanner extends Observable {
             case "-":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;} 
-                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.MINUS, "-", _line, pos, "www.github.com");
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.MINUS, "-", _line, pos, "http://github.com");
             case "/":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;}
-                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.DIVIDE, "/", _line, pos, "www.timcohn.com/TAC_Software/PeakfqSA/");
+                return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.DIVIDE, "/", _line, pos, "http://timcohn.com/TAC_Software/PeakfqSA/");
              case "*":
                 _c = GetCharacter();
                 if(!" ".equals(Character.toString(_c))){_putback = true;}
@@ -145,7 +145,7 @@ public class Scanner extends Observable {
             default:
                 _putback = true;
                 this.setChanged();
-                this.notifyObservers("Found a space outside of quotes (single or double) without an operator following");
+                this.notifyObservers("Found a space at location " + pos + "outside of quotes (single or double) without an operator following");
                 return new ParseTreeNodes.Token(ParseTreeNodes.Tokens.ERR, "Found a space outside of quotes (single or double) without an operator following", _line, pos);
         }
     }
