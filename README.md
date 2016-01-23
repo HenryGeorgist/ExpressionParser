@@ -4,7 +4,7 @@ This expression parser is designed to have something similar to excel syntax so 
 ## Parser
 ExpressionParser has one major entry point the Parser.  The parser is composed of a scanner and a current token. Parser.Parse is essentially a recursive parser that constructs a tree of ParseTreeNodes. Parser.Parse produces the ParseTreeNode tree which can then be evaluated.
 
-The tree will have an output type, and all of the ParseTreeNodes that create the tree will also have types. The ParseTreeNodes do substatntial checking for validity of type comparison. Currently improper syntax will lead to observable notifications which contain statements like "cannot add type boolean and type string with operator +".  
+The tree will have an output type, and all of the ParseTreeNodes that create the tree will also have types. The ParseTreeNodes do substantial checking for validity of type comparison. Currently improper syntax will lead to observable notifications which contain statements like "cannot add type boolean and type string with operator +".  
 
 Currently there are syntax errors that are contained in an errors array on the ParseTreenode (this requires initialization through the base class prior to construction of the expression), and scanner errors that occur due to inappropriate key word use or missing syntax issues.
 
