@@ -19,11 +19,11 @@ public class Parser extends Observable implements Observer{
    private String[] _VariableNames;
    private ParseTreeNodes.TypeEnum[] _VariableTypes;
    private ArrayList<String> _Errors;
-   public Parser(Scanner.Scanner scanner){
-       _Scanner = scanner;
-       _Scanner.addObserver(this);
-       _Errors = new ArrayList<>();
-   }
+//   public Parser(Scanner.Scanner scanner){
+//       _Scanner = scanner;
+//       _Scanner.addObserver(this);
+//       _Errors = new ArrayList<>();
+//   }
    public Parser(){
        _Errors = new ArrayList<>();
    }
@@ -412,19 +412,19 @@ public class Parser extends Observable implements Observer{
        }
        
    }
-   public ParseTreeNodes.ParseTreeNode Parse(){
+    private ParseTreeNodes.ParseTreeNode Parse(){
        Scan();
        ParseTreeNodes.ParseTreeNode Result = ParseATreeNode(null);
        return Result;
-   }
-      public ParseTreeNodes.ParseTreeNode Parse(String Expression){
-       java.io.InputStream is = new java.io.ByteArrayInputStream(Expression.getBytes());
-       _Scanner = new Scanner.Scanner(is);
-       _Scanner.addObserver(this);
-       Scan();
-       ParseTreeNodes.ParseTreeNode Result = ParseATreeNode(null);
-       return Result;
-   }
+    }
+    public ParseTreeNodes.ParseTreeNode Parse(String Expression){
+        java.io.InputStream is = new java.io.ByteArrayInputStream(Expression.getBytes());
+        _Scanner = new Scanner.Scanner(is);
+        _Scanner.addObserver(this);
+        Scan();
+        ParseTreeNodes.ParseTreeNode Result = ParseATreeNode(null);
+        return Result;
+    }
 
     @Override
     public void update(Observable o, Object arg) {

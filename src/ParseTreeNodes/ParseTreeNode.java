@@ -26,8 +26,8 @@ public abstract class ParseTreeNode{
         _SyntaxErrors = new ArrayList<>();
         _ComputeErrors = new ArrayList<>();
     }
-    public void ClearComputeErrors(){_ComputeErrors = new ArrayList<>();}
-    public void ClearSyntaxErrors(){_SyntaxErrors = new ArrayList<>();}
+    //public void ClearComputeErrors(){_ComputeErrors = new ArrayList<>();}
+    //public void ClearSyntaxErrors(){_SyntaxErrors = new ArrayList<>();}
     public abstract ArrayList<String> GetComputeErrors();
     public abstract ArrayList<String> GetSyntaxErrors();
     public TypeEnum Type(){return _Type;}

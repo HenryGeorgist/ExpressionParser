@@ -16,8 +16,6 @@ public class Scanner extends Observable {
     private char _c;
     private int _line = 1;
     private int _pos = 0;
-    //public event TokenFound(int position, ParseTreeNodes.Tokens Tok, string text, string helpdocpath);
-    //public event ErrorFound(string message);
     public Scanner(java.io.InputStream stream){
         _sr = new java.io.InputStreamReader(stream);
     }
@@ -328,5 +326,14 @@ public class Scanner extends Observable {
             }
         }
     }
-
+    private class NumberParseResult {
+        private String Str;
+        private boolean HasDecimal = false;
+        private boolean IsNumerical = true;
+        private NumberParseResult(String s, boolean HasD, boolean IsNumber){
+            Str = s;
+            HasDecimal = HasD;
+            IsNumerical = IsNumber;
+        }
+    }
 }
