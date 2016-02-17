@@ -76,5 +76,5 @@ public class RandExprNode extends ParseTreeNodes.ParseTreeNode implements ParseT
     @Override
     public String HelpFilePath() {return "www.github.com";}
     @Override
-    public String Syntax() {return "Rand(,)";}
+    public String Syntax() {return "Rand()";}
 }

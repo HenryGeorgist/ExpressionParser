@@ -76,5 +76,5 @@ public class RandIntExprNode extends ParseTreeNodes.ParseTreeNode implements Par
     @Override
     public String HelpFilePath() {return "www.yahoo.com";}
     @Override
-    public String Syntax() {return "RandInt(,)";}
+    public String Syntax() {return "RandInt()";}
 }

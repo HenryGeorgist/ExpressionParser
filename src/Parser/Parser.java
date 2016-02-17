@@ -64,7 +64,9 @@ public class Parser extends Observable implements Observer{
                ret = FactorRandInt();
                return ret;
 //           case RANDBETWEEN:
-//           case RANDINTBETWEEN:
+           case RANDINTBETWEEN:
+               ret = FactorRandIntBetween();
+               return ret;
            case IF:
                ret = FactorIf();
                if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(ret.Type())){
@@ -247,6 +249,68 @@ public class Parser extends Observable implements Observer{
            return new ParseTreeNodes.Variables.RandIntExprNode(ParseATreeNode(null));
        }
    }
+   private ParseTreeNodes.ParseTreeNode FactorRandIntBetween(){
+       Scan();//RandIntBetween
+       
+       Scan();//LeftParen
+       ParseTreeNodes.ParseTreeNode Min = null;
+       ParseTreeNodes.ParseTreeNode Max = null;
+       if(_Tok.GetToken() == ParseTreeNodes.Tokens.COMMA){
+           //no min 
+           Scan();//remove comma
+           if(_Tok.GetToken() == ParseTreeNodes.Tokens.COMMA){
+               //no max
+               Scan();//remove comma
+               if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                  Scan();//RightParen
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max,null);
+               }else{
+                  //seed is available.
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max, ParseATreeNode(null));
+               }
+           }else if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                  Scan();//RightParen
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max);
+           }else{
+               //max is available.
+               Max = ParseATreeNode(null);
+               if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                  Scan();//RightParen
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max,null);
+               }else{
+                  //seed is available.
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max, ParseATreeNode(null));
+               }
+           }
+       }else{
+           //min
+           Min = ParseATreeNode(null);
+           if(_Tok.GetToken() == ParseTreeNodes.Tokens.COMMA){
+               //no max
+               Scan();//remove comma
+               if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                  Scan();//RightParen
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max,null);
+               }else{
+                  //seed is available.
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max, ParseATreeNode(null));
+               }
+           }else if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                  Scan();//RightParen
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max);
+           }else{
+               //max is available.
+               Max = ParseATreeNode(null);
+               if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                  Scan();//RightParen
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max,null);
+               }else{
+                  //seed is available.
+                  return new ParseTreeNodes.Variables.RandIntBetweenExprNode(Min,Max, ParseATreeNode(null));
+               }
+           }
+       }
+   }
    private ParseTreeNodes.ParseTreeNode ParseATreeNode(ParseTreeNodes.ParseTreeNode lefthandSide){
        boolean exitloop = false;
        switch(_Tok.GetToken()){
@@ -375,8 +439,9 @@ public class Parser extends Observable implements Observer{
                break;
 //           case RANDBETWEEN:
 //               break;
-//           case RANDINTBETWEEN:
-//               break;
+           case RANDINTBETWEEN:
+               lefthandSide = FactorRandIntBetween();
+               break;
 //           case NORMINV:
 //               break;
 //           case TRIINV:
