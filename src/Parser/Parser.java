@@ -57,6 +57,10 @@ public class Parser extends Observable implements Observer{
                ret =new ParseTreeNodes.Numerics.NumIntNode(Integer.parseInt(_Tok.GetString()));
                Scan();
                return ret;
+           case NORMINV:
+                ret = FactorNormINV();
+                Scan();
+                return ret;
            case RAND:
                ret = FactorRand();
                return ret;
@@ -311,6 +315,60 @@ public class Parser extends Observable implements Observer{
            }
        }
    }
+   private ParseTreeNodes.ParseTreeNode FactorNormINV(){
+       Scan();//NormINV
+       Scan();//Left Paren
+       ParseTreeNodes.ParseTreeNode ARG1 = null;
+       ParseTreeNodes.ParseTreeNode ARG2 = null;
+       ParseTreeNodes.ParseTreeNode ARG3 = null;
+       if(_Tok.GetToken() != ParseTreeNodes.Tokens.COMMA || _Tok.GetToken() != ParseTreeNodes.Tokens.RPAREN){
+           ARG1 = ParseATreeNode(null);
+           if(_Tok.GetToken() != ParseTreeNodes.Tokens.COMMA || _Tok.GetToken() != ParseTreeNodes.Tokens.RPAREN){
+               ARG2 = ParseATreeNode(null);
+               if(_Tok.GetToken()== ParseTreeNodes.Tokens.COMMA){
+                   Scan();
+                   ARG3 = ParseATreeNode(null);
+                   if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                       return new ParseTreeNodes.Variables.NormInvExprNode(ARG1,ARG2,ARG3);
+                   }else{
+                       _Errors.add("A NormINV statement was found without an ending right parenthesis.");
+                       return new ParseTreeNodes.Variables.NormInvExprNode(ARG1,ARG2,ARG3);
+                   }
+               }else{
+                   if(_Tok.GetToken()==ParseTreeNodes.Tokens.RPAREN){
+                       return new ParseTreeNodes.Variables.NormInvExprNode(ARG1,ARG2);
+                   }else{
+                       _Errors.add("A NormINV statement was found without an ending right parenthesis.");
+                       return new ParseTreeNodes.Variables.NormInvExprNode(ARG1,ARG2,null);
+                   }
+               }
+           }else{
+                if(_Tok.GetToken() == ParseTreeNodes.Tokens.COMMA){
+                   Scan();
+                   if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                       return new ParseTreeNodes.Variables.NormInvExprNode(ARG1,null,null);
+                   }else{
+                       _Errors.add("A NormINV statement was found without an ending right parenthesis.");
+                       return new ParseTreeNodes.Variables.NormInvExprNode(null,null,null);
+                   }
+               }else{
+                  return new ParseTreeNodes.Variables.NormInvExprNode(ARG1,null); 
+               }
+           }
+       }else{
+           if(_Tok.GetToken() == ParseTreeNodes.Tokens.COMMA){
+               Scan();
+               if(_Tok.GetToken() == ParseTreeNodes.Tokens.RPAREN){
+                   return new ParseTreeNodes.Variables.NormInvExprNode(null,null,null);
+               }else{
+                   _Errors.add("A NormINV statement was found without an ending right parenthesis.");
+                   return new ParseTreeNodes.Variables.NormInvExprNode(null,null,null);
+               }
+           }else{
+              return new ParseTreeNodes.Variables.NormInvExprNode(null,null); 
+           }
+       }
+   }
    private ParseTreeNodes.ParseTreeNode ParseATreeNode(ParseTreeNodes.ParseTreeNode lefthandSide){
        boolean exitloop = false;
        switch(_Tok.GetToken()){
@@ -442,8 +500,9 @@ public class Parser extends Observable implements Observer{
            case RANDINTBETWEEN:
                lefthandSide = FactorRandIntBetween();
                break;
-//           case NORMINV:
-//               break;
+           case NORMINV:
+               lefthandSide = FactorNormINV();
+               break;
 //           case TRIINV:
 //               break;
              case SUBSTRING:

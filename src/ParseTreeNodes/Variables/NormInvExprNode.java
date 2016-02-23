@@ -18,7 +18,7 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode implements Par
     private ParseTreeNodes.ParseTreeNode _StDev;
     private ParseTreeNodes.ParseTreeNode _Rand;
     private boolean _isStandard = false;
-    private boolean _hasSeed = false;
+    private boolean _hasRandom = false;
     public NormInvExprNode(){
         //for reflection
     }
@@ -55,19 +55,19 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode implements Par
         }else{
             if(ParseTreeNodes.TypeEnum.DECIMAL.contains(rand.Type())){
                 _isStandard = true;
-                _hasSeed = true;
+                _hasRandom = true;
                 _Rand = rand;
                 _Type = ParseTreeNodes.TypeEnum.DOUBLE;
             }else{
                 _Type = ParseTreeNodes.TypeEnum.ERR;
-                _SyntaxErrors.add("The rand argument in the standard normal inverse CDF function did not produce a decimal number.");
+                _SyntaxErrors.add("The random argument in the standard normal inverse CDF function did not produce a decimal number.");
             }
         }
     }
     public NormInvExprNode(ParseTreeNodes.ParseTreeNode rand, ParseTreeNodes.ParseTreeNode mean, ParseTreeNodes.ParseTreeNode stdev){
         //check for null nodes and bad input types...
         super();
-        _hasSeed = true;
+        _hasRandom = true;
         _Mean = mean;
         _StDev = stdev;
         _Rand = rand;
@@ -76,7 +76,11 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode implements Par
     public Tokens Token() {return ParseTreeNodes.Tokens.NORMINV;}
     @Override
     public ParseTreeNodeResult Evaluate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double m = Double.parseDouble(_Mean.Evaluate().Result().toString());
+        double s = Double.parseDouble(_StDev.Evaluate().Result().toString());
+        double r = Double.parseDouble(_Rand.Evaluate().Result().toString());
+        Distributions.MethodOfMoments.Normal N = new Distributions.MethodOfMoments.Normal(m,s);
+        return new ParseTreeNodes.ParseTreeNodeResult(N.GetInvCDF(r),_Type);
     }
     @Override
     public void Update(Object[] row) {
@@ -88,13 +92,13 @@ public class NormInvExprNode extends ParseTreeNodes.ParseTreeNode implements Par
     public String ToString() {
         //check for nulls.
         if(_isStandard){
-            if(_hasSeed){
+            if(_hasRandom){
                 return "NormInv(" + _Rand.ToString() + ")";
             }else{
                 return "NormInv()";
             }
         }else{
-            if(_hasSeed){
+            if(_hasRandom){
                 return "NormInv(" + _Rand.ToString() + ", " + _Mean.ToString() + ", " + _StDev.ToString() + ")"; 
             }else{
                 return "NormInv(" + _Mean.ToString() + ", " + _StDev.ToString() +")"; 

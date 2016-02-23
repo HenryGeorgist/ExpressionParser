@@ -204,6 +204,12 @@ public class Scanner extends Observable {
                 return ParseTreeNodes.Tokens.CONVERTTOBOOLEAN;
             case "BYTE":
                 return ParseTreeNodes.Tokens.CONVERTTOBYTE;
+            case "LOG":
+                return ParseTreeNodes.Tokens.LN;
+            case "LOG10":
+                return ParseTreeNodes.Tokens.LOG10;
+            case "LN":
+                return ParseTreeNodes.Tokens.LN;
             default :
                 return ParseTreeNodes.Tokens.STRINGLIT;
         }

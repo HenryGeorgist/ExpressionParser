@@ -50,6 +50,8 @@ public enum Tokens {
     ROUND,
     ROUNDUP,
     ROUNDDOWN,
+    LOG10,
+    LN,
     RAND,
     RANDINT,
     RANDBETWEEN,
