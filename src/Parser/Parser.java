@@ -74,7 +74,7 @@ public class Parser extends Observable implements Observer{
            case IF:
                ret = FactorIf();
                if(ParseTreeNodes.TypeEnum.NUMERICAL.contains(ret.Type())){
-                   ret = new ParseTreeNodes.Strings.StringNode("IfStatementDoesNotProduceNumericalResult");
+                   ret = new ParseTreeNodes.Strings.StringNode("An If statement encountered in a larger numerical statement does not produce a numerical result");
                }
                return ret;    
            case LPAREN:
@@ -82,6 +82,10 @@ public class Parser extends Observable implements Observer{
                ret = ParentheticalStatement(ret);
                //Scan();
                return ret;
+           case LOG10:
+               return FactorLog(true);
+           case LN:
+               return FactorLog(false);
            case EOF:
                return null;
            default:
@@ -232,6 +236,20 @@ public class Parser extends Observable implements Observer{
                Scan();
        }
        return righthandSide;
+   }
+   /**
+    * Creates a ParseTreeNode that is either Log10ExprNode or LnExprNode based on the boolean IsBase10
+    * @param IsBase10
+    * @return 
+    */
+   private ParseTreeNodes.ParseTreeNode FactorLog(boolean IsBase10){
+       Scan();
+       Scan();
+       if(IsBase10){
+           return new ParseTreeNodes.Numerics.Log10ExprNode(ParseATreeNode(null));
+       }else{
+           return new ParseTreeNodes.Numerics.LnExprNode(ParseATreeNode(null));
+       }
    }
    private ParseTreeNodes.ParseTreeNode FactorRand(){
        Scan();
@@ -489,6 +507,12 @@ public class Parser extends Observable implements Observer{
 //               break;
 //           case ROUNDDOWN:
 //               break;
+           case LOG10:
+               lefthandSide = FactorLog(true);
+               break;
+           case LN:
+               lefthandSide = FactorLog(false);
+               break;
            case RAND:
                lefthandSide = FactorRand();
                break;

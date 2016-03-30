@@ -25,15 +25,16 @@ public class Log10ExprNode extends ParseTreeNodes.ParseTreeNode implements Parse
             _Type = ParseTreeNodes.TypeEnum.DOUBLE;
         }else{
             _X = x;
-            _SyntaxErrors.add("The value of the argument of the natural Log was not numerical.");
+            _SyntaxErrors.add("The value of the argument of Log Base 10 was not numerical.");
             _Type = ParseTreeNodes.TypeEnum.ERR;
         }
     }
     @Override
-    public Tokens Token() {return ParseTreeNodes.Tokens.LN;}
+    public Tokens Token() {return ParseTreeNodes.Tokens.LOG10;}
     @Override
     public ParseTreeNodeResult Evaluate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double val = Double.parseDouble(_X.Evaluate().Result().toString());
+        return new ParseTreeNodes.ParseTreeNodeResult(Math.log10(val),_Type);
     }
     @Override
     public void Update(Object[] row) {_X.Update(row);}

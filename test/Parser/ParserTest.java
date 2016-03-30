@@ -74,6 +74,11 @@ public class ParserTest {
         assertEquals("f", _P.Parse("Right(asdf,1)").Evaluate().Result());
         assertEquals("a", _P.Parse("left(asdf,1)").Evaluate().Result());
         assertEquals("sd", _P.Parse("substring(asdf,1,2)").Evaluate().Result());
+        assertEquals(0.0,_P.Parse("Log(1)").Evaluate().Result());
+        assertEquals(0.0,_P.Parse("Ln(1)").Evaluate().Result());
+        assertEquals(0.0,_P.Parse("Log10(1)").Evaluate().Result());
+        assertEquals(0.9969486348916096,_P.Parse("Log(2.71)").Evaluate().Result());
+        assertEquals(1.9969486348916096,_P.Parse("1+Log(2.71)").Evaluate().Result());
         assertEquals(0.6465821602909256, _P.Parse("Rand(1234)").Evaluate().Result());
         assertEquals(-1517918040, _P.Parse("RandINT(1234)").Evaluate().Result());
         ParseTreeNodes.TypeEnum[] types;
