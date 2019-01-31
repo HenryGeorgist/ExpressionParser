@@ -1,5 +1,5 @@
 # ExpressionParser
-This expression parser is designed to have something similar to excel syntax so that expressions can be simpler to type for users than using vb c# or sequal logic statements.  These expressions can be used to evaluate new data, edit existing data, or search through databases.  Another application would be for combining data that occurs at the same time (in time series data) or in the same location (gridded data). 
+This expression parser is designed to have something similar to excel syntax so that expressions can be simpler to type for users than using vb c# or sql logic statements.  These expressions can be used to evaluate new data, edit existing data, or search through databases.  Another application would be for combining data that occurs at the same time (in time series data) or in the same location (gridded data). 
 
 ## Parser
 ExpressionParser has one major entry point the Parser.  The parser is composed of a scanner and a current token. Parser.Parse is essentially a recursive parser that constructs a tree of ParseTreeNodes. Parser.Parse produces the ParseTreeNode tree which can then be evaluated.
